@@ -1,0 +1,111 @@
+{
+ "schema": "model-smoke/v1",
+ "stage": "S2b-data-model",
+ "purpose": "D4 冻结实现 + D3 管线在真实数据上的前向/反向 smoke；F3 预兆（lr=1e-3 与 3e-4 两档 loss/梯度稳定性）",
+ "device": "cuda",
+ "data": "D:\\hermes-data\\research\\让多时间尺度液态专家自己学时间常数-d2841418\\data\\processed\\physionet2019_sample.npz",
+ "ran_at": "2026-10-28T07:19:03.452747",
+ "input_channels": "模型输入 = 34 时变临床变量 + 34 mask 通道 = 68 维（D3-3，见 data_pipeline.py）",
+ "data_stats": {
+  "n_admissions": 2419,
+  "input_dim": 68,
+  "seq_len": 72,
+  "hour_pos_rate": 0.006826742086559534,
+  "admission_pos_rate": 0.05250103399157524
+ },
+ "mini_config": {
+  "hidden": 64,
+  "batch": 8,
+  "A0_vs_B0_max_abs_diff": 0.0,
+  "B0_equals_A0_pass": true,
+  "param_audit": {
+   "arm_a_learnable_params": 107550,
+   "arm_b_learnable_params": 107553,
+   "learnable_elem_diff_b_minus_a": 3,
+   "names_only_in_b": [
+    "tau_sched.c"
+   ],
+   "names_only_in_a": [],
+   "shapes_only_in_b": {
+    "tau_sched.c": [
+     3
+    ]
+   },
+   "name_sets_identical_except": [
+    "tau_sched.c"
+   ],
+   "pass_exactly_3_scalars": true
+  },
+  "loss_b": 0.6879401206970215,
+  "c_grad_norm_arm_b": 7.33954511815682e-05,
+  "grad_reaches_c_pass": true,
+  "single_lnn_loss": 0.7392187118530273,
+  "single_lnn_grads_finite": true,
+  "single_lnn_out_shape": [
+   8,
+   72
+  ]
+ },
+ "heavy_config": {
+  "mrmoe_fwd_bwd": {
+   "hidden": 1500,
+   "batch": 16,
+   "seq_len": 72,
+   "loss": 0.7096546292304993,
+   "loss_finite": true,
+   "logits_max_abs": 0.058142323046922684,
+   "c_grad_norm": 1.6382324474761845e-06,
+   "peak_mem_mib": 4532.6,
+   "budget_mib": 8192.0,
+   "within_8g": true,
+   "d9_note": "D4 冻结 batch=64 在 h1500 全模型超 8G（operator_bench O3），smoke 按 D9 阶梯取 b16（实测峰值见上）"
+  },
+  "f3_presign": {
+   "lr_0.001": {
+    "steps": 2,
+    "losses": [
+     0.7091351747512817,
+     0.44269493222236633
+    ],
+    "grad_norms": [
+     3.7375382272055266,
+     2.6766215565320306
+    ],
+    "nan_or_inf": false
+   },
+   "lr_0.0003": {
+    "steps": 2,
+    "losses": [
+     0.7093151211738586,
+     0.6200975179672241
+    ],
+    "grad_norms": [
+     3.744019682890672,
+     3.4577948082588223
+    ],
+    "nan_or_inf": false
+   }
+  },
+  "single_lnn": {
+   "hidden": 1500,
+   "batch": 16,
+   "loss": 0.6949397325515747,
+   "loss_finite": true,
+   "peak_mem_mib": 3575.6,
+   "within_8g": true,
+   "grads_finite": true
+  },
+  "f3_triggered": false,
+  "f3_note": "F3 触发器=任一档出现 loss NaN/Inf 或梯度爆炸；触发则记 F3 交 S3 前处置（两档均稳=预兆未触发）"
+ },
+ "params": {
+  "mrmoe_arm_b": {
+   "total": 35312025,
+   "trainable": 28256025
+  },
+  "single_lnn": {
+   "total": 11769137,
+   "trainable": 9417137
+  }
+ }
+}

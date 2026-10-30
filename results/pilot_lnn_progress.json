@@ -1,0 +1,231 @@
+{
+ "schema": "pilot-lnn-progress/v1",
+ "stage": "S3-pilot-continue-d (D5(i))",
+ "runs": {
+  "LNN_s0": {
+   "arm": "LNN",
+   "seed": 0,
+   "tau_learnable": null,
+   "run_key": "LNN_s0",
+   "model": "mr_moe.SingleLNN（ncps 0.0.2 标准 LTCCell；非 A/B 臂成员）",
+   "status": "completed",
+   "started_at": "2026-10-31T01:10:10.955917",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 416393,
+     "trainable": 333449
+    },
+    "torch": "2.10.0+cu128"
+   },
+   "sub_idx_sha1": "a2ba8268d20d",
+   "epochs": [
+    {
+     "epoch": 1,
+     "train_loss_mean": 0.226328,
+     "train_loss_first_last": [
+      0.730492,
+      0.06445
+     ],
+     "grad_global_norm_mean": 0.968222,
+     "grad_global_norm_max": 2.819158,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.057636,
+     "hourly": {
+      "auroc": 0.7401616910185692,
+      "auprc": 0.01605772782765641,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5475748194014448,
+      "auprc": 0.061749773581656314,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": null,
+     "n_batches": 32,
+     "batch_sec_median": 0.883,
+     "epoch_sec": 31.2,
+     "peak_mem_mib": 370.1,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_LNN_s0_ep1.pt"
+    },
+    {
+     "epoch": 2,
+     "train_loss_mean": 0.048227,
+     "train_loss_first_last": [
+      0.041118,
+      0.087769
+     ],
+     "grad_global_norm_mean": 0.085329,
+     "grad_global_norm_max": 0.199406,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.04345,
+     "hourly": {
+      "auroc": 0.7486996444963097,
+      "auprc": 0.016768296479425217,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.56656346749226,
+      "auprc": 0.06482481699855416,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": null,
+     "n_batches": 32,
+     "batch_sec_median": 0.882,
+     "epoch_sec": 28.95,
+     "peak_mem_mib": 370.1,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_LNN_s0_ep2.pt"
+    },
+    {
+     "epoch": 3,
+     "train_loss_mean": 0.041283,
+     "train_loss_first_last": [
+      0.047517,
+      0.00953
+     ],
+     "grad_global_norm_mean": 0.034401,
+     "grad_global_norm_max": 0.084091,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.042211,
+     "hourly": {
+      "auroc": 0.7548847169504881,
+      "auprc": 0.01728033398233607,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5725490196078431,
+      "auprc": 0.06592124027108506,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": null,
+     "n_batches": 32,
+     "batch_sec_median": 0.886,
+     "epoch_sec": 29.19,
+     "peak_mem_mib": 370.1,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_LNN_s0_ep3.pt"
+    },
+    {
+     "epoch": 4,
+     "train_loss_mean": 0.040569,
+     "train_loss_first_last": [
+      0.058688,
+      0.008118
+     ],
+     "grad_global_norm_mean": 0.026388,
+     "grad_global_norm_max": 0.060955,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.041897,
+     "hourly": {
+      "auroc": 0.7746796857612049,
+      "auprc": 0.0178514689998103,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5812177502579979,
+      "auprc": 0.06793120827927235,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": null,
+     "n_batches": 32,
+     "batch_sec_median": 0.89,
+     "epoch_sec": 29.02,
+     "peak_mem_mib": 370.1,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_LNN_s0_ep4.pt"
+    },
+    {
+     "epoch": 5,
+     "train_loss_mean": 0.041264,
+     "train_loss_first_last": [
+      0.028775,
+      0.04525
+     ],
+     "grad_global_norm_mean": 0.018996,
+     "grad_global_norm_max": 0.069015,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.041796,
+     "hourly": {
+      "auroc": 0.7780074950524233,
+      "auprc": 0.01817847037952014,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5880288957688339,
+      "auprc": 0.06956557120887821,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": null,
+     "n_batches": 32,
+     "batch_sec_median": 0.883,
+     "epoch_sec": 28.98,
+     "peak_mem_mib": 370.1,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_LNN_s0_ep5.pt"
+    },
+    {
+     "epoch": 6,
+     "train_loss_mean": 0.041196,
+     "train_loss_first_last": [
+      0.05804,
+      0.045639
+     ],
+     "grad_global_norm_mean": 0.021974,
+     "grad_global_norm_max": 0.064221,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.041741,
+     "hourly": {
+      "auroc": 0.7797789982134586,
+      "auprc": 0.018358261487034584,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5917440660474717,
+      "auprc": 0.07044562830490661,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": null,
+     "n_batches": 32,
+     "batch_sec_median": 0.888,
+     "epoch_sec": 29.23,
+     "peak_mem_mib": 370.1,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_LNN_s0_ep6.pt"
+    }
+   ],
+   "updated_at": "2026-10-31T01:13:07.617310",
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-31T01:13:07.629875",
+   "loss_decrease_ep1_to_last": 0.185132,
+   "val_loss_decrease_ep1_to_last": 0.015895
+  }
+ },
+ "updated_at": "2026-10-31T01:13:07.617310"
+}

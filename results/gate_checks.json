@@ -1,0 +1,229 @@
+{
+ "schema": "gate-checks/v1",
+ "stage": "S2b-data-model",
+ "purpose": "workflow.json S2b completion.criteria 汇总：数据获取实测 + 模型 smoke + S2a 算子/断言结论 + 本地提交状态",
+ "ran_at": "2026-10-28T07:36:58+08:00",
+ "gates": {
+  "G1_operator_and_five_assertions": {
+   "pass": true,
+   "assertions": {
+    "A1_dynamic_separability": true,
+    "A2_init_equivalence": true,
+    "A3_grad_reaches_tau": true,
+    "A5_param_audit": true,
+    "A4_stability_and_memory": true
+   },
+   "a4_branch": {
+    "frozen_batch_b64_over_8g": false,
+    "d9_ladder_selected_rung": "b32",
+    "d9_peak_mib_b32": 6863.4,
+    "note": "A4 内存超限走 D9 阶梯不算失败（design.md §五 A4）"
+   },
+   "source": "results/ltc_tau_probe.json（S2-gate-checks 产物，本单元只复核不重跑）"
+  },
+  "G2_data_acquisition": {
+   "pass": true,
+   "moor_2023": {
+    "obtainable": false,
+    "reason": "主源 Moor 2023 harmonized 集在本环境不可获取：四底库均需机构认证凭证（CITI 培训 + DUA），无公开免凭证下载；harmonized 标注集本身亦无公开发布（本单元实测检索 GitHub/Zenodo/figshare/grep.app 无果）。按 D3 决策过程回退 PhysioNet/CinC 2019。"
+   },
+   "physionet_2019": {
+    "inventory_exact": {
+     "training_setA": 20336,
+     "training_setB": 20000
+    },
+    "inventory_total": 40336,
+    "downloaded_admissions": 3024,
+    "downloaded_hours": 115837,
+    "length_distribution_hours": {
+     "min": 8,
+     "p05": 14,
+     "p25": 24,
+     "p50": 38,
+     "p75": 47,
+     "p95": 58,
+     "p99": 138,
+     "max": 328,
+     "mean": 38.31
+    },
+    "label_rate_hour_level": {
+     "rate": 0.017343,
+     "wilson95": [
+      0.016607,
+      0.018111
+     ],
+     "note": "正标签小时数 / 总小时数（样本）"
+    },
+    "label_rate_admission_level": {
+     "rate": 0.070106,
+     "wilson95": [
+      0.06154,
+      0.079762
+     ],
+     "note": "至少 1 个正标签小时的入院数 / 总入院数（样本；Che 2018/PhysioNet 2019 口径）"
+    },
+    "download_mode": "random_sample_seed20261028_n3000",
+    "protocol_compat": {
+     "checked": true,
+     "sample_file": "training_setA/p000002.psv",
+     "n_columns_expected_physionet2019": 41,
+     "n_columns_observed": 41,
+     "n_time_varying": 34,
+     "n_static_meta": 7,
+     "columns": [
+      "HR",
+      "O2Sat",
+      "Temp",
+      "SBP",
+      "MAP",
+      "DBP",
+      "Resp",
+      "EtCO2",
+      "BaseExcess",
+      "HCO3",
+      "FiO2",
+      "pH",
+      "PaCO2",
+      "SaO2",
+      "AST",
+      "BUN",
+      "Alkalinephos",
+      "Calcium",
+      "Chloride",
+      "Creatinine",
+      "Bilirubin_direct",
+      "Glucose",
+      "Lactate",
+      "Magnesium",
+      "Phosphate",
+      "Potassium",
+      "Bilirubin_total",
+      "TroponinI",
+      "Hct",
+      "Hgb",
+      "PTT",
+      "WBC",
+      "Fibrinogen",
+      "Platelets",
+      "Age",
+      "Gender",
+      "Unit1",
+      "Unit2",
+      "HospAdmTime",
+      "ICULOS",
+      "SepsisLabel"
+     ],
+     "hourly_grid": "ICULOS 为小时序号（1,2,3...），dt=1h 与 D3 冻结一致",
+     "label_semantics": "SepsisLabel：该小时起未来 6h 内 Sepsis-3 onset=1（PhysioNet 2019 标准），与 D3「y(t)=1[onset∈(t,t+6h]]」一致",
+     "che2018_split": "Che et al. 2018 患者级随机 80/10/10 划分可在合并 setA+setB 上复现（D3）",
+     "dt_hours": 1,
+     "truncation_d3_hours": 72
+    }
+   },
+   "selection": {
+    "selected": "physionet_cinc_2019",
+    "basis": "主源 Moor 2023 需认证访问不可获取（见 moor_2023.conclusion）；回退源 PhysioNet/CinC 2019 公开可下载、协议与 Che 2018/Sepsis-3 兼容（实测）"
+   },
+   "note": "主源需认证不可获取→回退源公开可下载且协议兼容（D3 决策过程留痕）；样本统计为 7% 固定种子随机样本（全量续跑：data_check.py --full）"
+  },
+  "G3_model_smoke": {
+   "pass": true,
+   "mini_config": {
+    "A0_vs_B0_max_abs_diff": 0.0,
+    "B0_equals_A0_pass": true,
+    "grad_reaches_c_pass": true,
+    "c_grad_norm": 7.33954511815682e-05,
+    "param_audit_pass": true,
+    "learnable_elem_diff": 3,
+    "single_lnn_grads_finite": true
+   },
+   "heavy_config_h1500": {
+    "fwd_bwd_finite": true,
+    "loss": 0.7096546292304993,
+    "c_grad_norm": 1.6382324474761845e-06,
+    "peak_mem_mib": 4532.6,
+    "within_8g": true,
+    "batch_d9_rung": 16,
+    "single_lnn_finite": true,
+    "single_lnn_peak_mib": 3575.6
+   },
+   "f3_presign": {
+    "triggered": false,
+    "detail": {
+     "lr_0.001": {
+      "losses": [
+       0.7091351747512817,
+       0.44269493222236633
+      ],
+      "grad_norms": [
+       3.7375382272055266,
+       2.6766215565320306
+      ],
+      "nan_or_inf": false
+     },
+     "lr_0.0003": {
+      "losses": [
+       0.7093151211738586,
+       0.6200975179672241
+      ],
+      "grad_norms": [
+       3.744019682890672,
+       3.4577948082588223
+      ],
+      "nan_or_inf": false
+     }
+    }
+   }
+  },
+  "G4_artifacts": {
+   "pass": true,
+   "required": [
+    "experiments/data_check.py",
+    "results/data_check.json",
+    "experiments/mr_moe.py",
+    "experiments/data_pipeline.py",
+    "results/gate_checks.json"
+   ],
+   "missing": [],
+   "note": "results/gate_checks.json 由本脚本自写（存在性以写入后为准）"
+  }
+ },
+ "failure_conditions": {
+  "F2_no_real_benchmark": {
+   "triggered": false,
+   "detail": "Moor 2023 认证墙（recorded）+ PhysioNet 2019 获取成功 → 未触发"
+  },
+  "F5_implementation_wall": {
+   "triggered": false,
+   "detail": "LTC-tie 路径五断言 A1-A5 全过（S2a）+ 真实数据 fwd/bwd 全有限（S2b）→ 未触发；CfC-ts / 自定义欧拉两条备选路径未启用"
+  },
+  "F3_presign": {
+   "triggered": false,
+   "detail": "lr=1e-3 与 3e-4 两档 smoke 步的 loss/梯度见 G3.f3_presign.detail"
+  },
+  "F8_operator_wall": {
+   "triggered": false,
+   "detail": "S2a 已触发并上交，D14 判读=hidden 256 应急档（S3 排程）；S2b smoke 仍按 D4 冻结 h1500 验证论文对齐实现（A4 走 D9 阶梯 b16/b32）"
+  }
+ },
+ "s3_release": {
+  "release": true,
+  "criteria": "workflow.json S2b next_condition：门检通过 → S3-pilot 放行；F2/F5 触发 → 回执带证据早退",
+  "carry_to_s3": [
+   "数据=data/raw/physionet-2019（3000 例样本；--full 可续跑全量 40,336）",
+   "预处理=data_pipeline.py（D3；68 维输入=34 时变+34 mask）",
+   "模型=mr_moe.py MRMoE（A/B 臂）+ SingleLNN 基线",
+   "D14：S3 训练排程=hidden 256/B64/2000 条/E6（应急档），smoke 的 h1500 仅证论文对齐"
+  ]
+ },
+ "git": {
+  "head": "432c087",
+  "subject": "S2b-data-model ⑤（lab-executor）：gate_checks.json 汇总+状态/决策/复盘/交接落盘。"
+ },
+ "reproduction": {
+  "data_check": "python experiments/data_check.py --sample 3000（--full 全量续跑）",
+  "pipeline": "python experiments/data_pipeline.py",
+  "model_smoke": "python experiments/mr_moe.py --smoke",
+  "gate_summary": "python experiments/gate_checks.py"
+ }
+}

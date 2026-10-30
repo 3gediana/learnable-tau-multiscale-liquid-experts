@@ -1,0 +1,40 @@
+{
+ "schema": "train-vs-val-diag/v1",
+ "stage": "S3-pilot smoke 跑后诊断",
+ "purpose": "区分过拟合/分布差 vs 结构性错位（train 子采样 vs val 的 AUROC 对比）",
+ "run": "A_s0",
+ "ckpt_epoch": 6,
+ "train_sub": {
+  "n": 2000,
+  "val_loss": 0.040049,
+  "hourly": {
+   "auroc": 0.7882808216783217,
+   "auprc": 0.01736539630944359,
+   "n": 144000,
+   "pos_rate": 0.0069444444961845875
+  },
+  "admission": {
+   "auroc": 0.5015255417154199,
+   "auprc": 0.05366236752195562,
+   "n": 2000,
+   "pos_rate": 0.05350000038743019
+  }
+ },
+ "val": {
+  "n": 302,
+  "val_loss": 0.040562,
+  "hourly": {
+   "auroc": 0.803056970819824,
+   "auprc": 0.01972698606764441,
+   "n": 21744,
+   "pos_rate": 0.007082413416355848
+  },
+  "admission": {
+   "auroc": 0.6136222910216719,
+   "auprc": 0.08130538090224303,
+   "n": 302,
+   "pos_rate": 0.05629139021039009
+  }
+ },
+ "interpretation": "train AUROC 高 ∧ val AUROC 低 → 过拟合/分布差（应急档 2000 条 1M 参数的预期风险，交 S3-pilot-continue 判读）；train AUROC 也低 → 结构性错位，查预处理/标签/评测实现"
+}

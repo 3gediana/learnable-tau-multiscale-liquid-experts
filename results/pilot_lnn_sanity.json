@@ -1,0 +1,311 @@
+{
+ "schema": "pilot-lnn-sanity/v1",
+ "stage": "S3-pilot-continue-d",
+ "purpose": "D5(i) 单体 LNN seed0 sanity：与 A/B 臂同应急档配置，验证「固定 τ 的 MR-MoE 优于单体 LNN」的方向性健全性（U4）",
+ "ran_at": "2026-10-31T01:13:07.633378",
+ "run_key": "LNN_s0",
+ "status": "completed",
+ "config": {
+  "hidden": 256,
+  "batch": 64,
+  "ode_unfolds": 6,
+  "epochs": 6,
+  "lr": 0.001,
+  "subsample": 2000,
+  "data": "data\\processed\\physionet2019_sample.npz",
+  "data_seed": 20261029,
+  "seq_len": 72,
+  "n_feat": 68,
+  "device": "cuda",
+  "params": {
+   "total": 416393,
+   "trainable": 333449
+  },
+  "torch": "2.10.0+cu128"
+ },
+ "sub_idx_sha1": "a2ba8268d20d",
+ "params": {
+  "total": 416393,
+  "trainable": 333449
+ },
+ "f3": {
+  "triggered": false,
+  "reason": null
+ },
+ "wall_sec": 178.6,
+ "batch_sec_median": 0.885,
+ "peak_mem_mib_overall": 370.1,
+ "epoch_sec": [
+  31.2,
+  28.95,
+  29.19,
+  29.02,
+  28.98,
+  29.23
+ ],
+ "epochs": [
+  {
+   "epoch": 1,
+   "train_loss_mean": 0.226328,
+   "train_loss_first_last": [
+    0.730492,
+    0.06445
+   ],
+   "grad_global_norm_mean": 0.968222,
+   "grad_global_norm_max": 2.819158,
+   "c_grad_norm_mean": null,
+   "val_loss": 0.057636,
+   "hourly": {
+    "auroc": 0.7401616910185692,
+    "auprc": 0.01605772782765641,
+    "n": 21744,
+    "pos_rate": 0.007082413416355848
+   },
+   "admission": {
+    "auroc": 0.5475748194014448,
+    "auprc": 0.061749773581656314,
+    "n": 302,
+    "pos_rate": 0.05629139021039009
+   },
+   "tau": null,
+   "n_batches": 32,
+   "batch_sec_median": 0.883,
+   "epoch_sec": 31.2,
+   "peak_mem_mib": 370.1,
+   "loss_finite": true,
+   "ckpt": "experiments\\ckpt\\pilot_LNN_s0_ep1.pt"
+  },
+  {
+   "epoch": 2,
+   "train_loss_mean": 0.048227,
+   "train_loss_first_last": [
+    0.041118,
+    0.087769
+   ],
+   "grad_global_norm_mean": 0.085329,
+   "grad_global_norm_max": 0.199406,
+   "c_grad_norm_mean": null,
+   "val_loss": 0.04345,
+   "hourly": {
+    "auroc": 0.7486996444963097,
+    "auprc": 0.016768296479425217,
+    "n": 21744,
+    "pos_rate": 0.007082413416355848
+   },
+   "admission": {
+    "auroc": 0.56656346749226,
+    "auprc": 0.06482481699855416,
+    "n": 302,
+    "pos_rate": 0.05629139021039009
+   },
+   "tau": null,
+   "n_batches": 32,
+   "batch_sec_median": 0.882,
+   "epoch_sec": 28.95,
+   "peak_mem_mib": 370.1,
+   "loss_finite": true,
+   "ckpt": "experiments\\ckpt\\pilot_LNN_s0_ep2.pt"
+  },
+  {
+   "epoch": 3,
+   "train_loss_mean": 0.041283,
+   "train_loss_first_last": [
+    0.047517,
+    0.00953
+   ],
+   "grad_global_norm_mean": 0.034401,
+   "grad_global_norm_max": 0.084091,
+   "c_grad_norm_mean": null,
+   "val_loss": 0.042211,
+   "hourly": {
+    "auroc": 0.7548847169504881,
+    "auprc": 0.01728033398233607,
+    "n": 21744,
+    "pos_rate": 0.007082413416355848
+   },
+   "admission": {
+    "auroc": 0.5725490196078431,
+    "auprc": 0.06592124027108506,
+    "n": 302,
+    "pos_rate": 0.05629139021039009
+   },
+   "tau": null,
+   "n_batches": 32,
+   "batch_sec_median": 0.886,
+   "epoch_sec": 29.19,
+   "peak_mem_mib": 370.1,
+   "loss_finite": true,
+   "ckpt": "experiments\\ckpt\\pilot_LNN_s0_ep3.pt"
+  },
+  {
+   "epoch": 4,
+   "train_loss_mean": 0.040569,
+   "train_loss_first_last": [
+    0.058688,
+    0.008118
+   ],
+   "grad_global_norm_mean": 0.026388,
+   "grad_global_norm_max": 0.060955,
+   "c_grad_norm_mean": null,
+   "val_loss": 0.041897,
+   "hourly": {
+    "auroc": 0.7746796857612049,
+    "auprc": 0.0178514689998103,
+    "n": 21744,
+    "pos_rate": 0.007082413416355848
+   },
+   "admission": {
+    "auroc": 0.5812177502579979,
+    "auprc": 0.06793120827927235,
+    "n": 302,
+    "pos_rate": 0.05629139021039009
+   },
+   "tau": null,
+   "n_batches": 32,
+   "batch_sec_median": 0.89,
+   "epoch_sec": 29.02,
+   "peak_mem_mib": 370.1,
+   "loss_finite": true,
+   "ckpt": "experiments\\ckpt\\pilot_LNN_s0_ep4.pt"
+  },
+  {
+   "epoch": 5,
+   "train_loss_mean": 0.041264,
+   "train_loss_first_last": [
+    0.028775,
+    0.04525
+   ],
+   "grad_global_norm_mean": 0.018996,
+   "grad_global_norm_max": 0.069015,
+   "c_grad_norm_mean": null,
+   "val_loss": 0.041796,
+   "hourly": {
+    "auroc": 0.7780074950524233,
+    "auprc": 0.01817847037952014,
+    "n": 21744,
+    "pos_rate": 0.007082413416355848
+   },
+   "admission": {
+    "auroc": 0.5880288957688339,
+    "auprc": 0.06956557120887821,
+    "n": 302,
+    "pos_rate": 0.05629139021039009
+   },
+   "tau": null,
+   "n_batches": 32,
+   "batch_sec_median": 0.883,
+   "epoch_sec": 28.98,
+   "peak_mem_mib": 370.1,
+   "loss_finite": true,
+   "ckpt": "experiments\\ckpt\\pilot_LNN_s0_ep5.pt"
+  },
+  {
+   "epoch": 6,
+   "train_loss_mean": 0.041196,
+   "train_loss_first_last": [
+    0.05804,
+    0.045639
+   ],
+   "grad_global_norm_mean": 0.021974,
+   "grad_global_norm_max": 0.064221,
+   "c_grad_norm_mean": null,
+   "val_loss": 0.041741,
+   "hourly": {
+    "auroc": 0.7797789982134586,
+    "auprc": 0.018358261487034584,
+    "n": 21744,
+    "pos_rate": 0.007082413416355848
+   },
+   "admission": {
+    "auroc": 0.5917440660474717,
+    "auprc": 0.07044562830490661,
+    "n": 302,
+    "pos_rate": 0.05629139021039009
+   },
+   "tau": null,
+   "n_batches": 32,
+   "batch_sec_median": 0.888,
+   "epoch_sec": 29.23,
+   "peak_mem_mib": 370.1,
+   "loss_finite": true,
+   "ckpt": "experiments\\ckpt\\pilot_LNN_s0_ep6.pt"
+  }
+ ],
+ "summary": {
+  "val_loss": 0.041741,
+  "hourly_auroc": 0.7797789982134586,
+  "hourly_auprc": 0.018358261487034584,
+  "adm_auroc": 0.5917440660474717,
+  "adm_auprc": 0.07044562830490661,
+  "train_loss_ep1": 0.226328,
+  "train_loss_last": 0.041196
+ },
+ "loss_decrease_ep1_to_last": 0.185132,
+ "val_loss_decrease_ep1_to_last": 0.015895,
+ "comparison_vs_arm_a": {
+  "statement": "D5(i)/U4 方向性：固定 τ 的 MR-MoE（A 臂）应优于单体 LNN；不是 H1a 受控配对（架构不同），仅健全性检查",
+  "a_minus_lnn": {
+   "adm_auroc": 0.005435,
+   "adm_auprc": 0.001711,
+   "hourly_auroc": 0.028468,
+   "hourly_auprc": 0.001906,
+   "val_loss": -0.001183
+  },
+  "a_arm_reference": {
+   "n_seeds": 3,
+   "per_seed": [
+    {
+     "run_key": "A_s0",
+     "seed": 0,
+     "val_loss": 0.040562,
+     "hourly_auroc": 0.803056970819824,
+     "hourly_auprc": 0.01972698606764441,
+     "adm_auroc": 0.6136222910216719,
+     "adm_auprc": 0.08130538090224303,
+     "train_loss_last": 0.040567
+    },
+    {
+     "run_key": "A_s1",
+     "seed": 1,
+     "val_loss": 0.040626,
+     "hourly_auroc": 0.801844288180555,
+     "hourly_auprc": 0.01958445275834734,
+     "adm_auroc": 0.5890608875128999,
+     "adm_auprc": 0.06759166155207381,
+     "train_loss_last": 0.039781
+    },
+    {
+     "run_key": "A_s2",
+     "seed": 2,
+     "val_loss": 0.040487,
+     "hourly_auroc": 0.819840835403596,
+     "hourly_auprc": 0.0214792343272612,
+     "adm_auroc": 0.5888544891640867,
+     "adm_auprc": 0.06757481289695351,
+     "train_loss_last": 0.040293
+    }
+   ],
+   "val_loss_mean": 0.040558,
+   "val_loss_std": 7e-05,
+   "hourly_auroc_mean": 0.808247,
+   "hourly_auroc_std": 0.010059,
+   "hourly_auprc_mean": 0.020264,
+   "hourly_auprc_std": 0.001055,
+   "adm_auroc_mean": 0.597179,
+   "adm_auroc_std": 0.01424,
+   "adm_auprc_mean": 0.072157,
+   "adm_auprc_std": 0.007922
+  },
+  "a_vs_lnn_same_seed0": {
+   "adm_auroc_a_minus_lnn": 0.021878,
+   "hourly_auroc_a_minus_lnn": 0.023278
+  },
+  "directional_pass_a_gt_lnn_auroc": true
+ },
+ "notes": [
+  "单体 LNN = mr_moe.SingleLNN（ncps 0.0.2 标准 LTCCell，非 τ-tie 子类）；hidden 256 与 A/B 臂同档匹配规模（D14 应急档）",
+  "无专家/无 τ → 无 τ 日志、c_grad=N/A（D7 不适用）；不是 A/B 臂成员",
+  "同 seed 0 / 同子采样（data_seed 20261029）/ 同 lr,batch,E → 与 A_s0 数据顺序一致",
+  "结论限应急档规模 + PhysioNet 2019 回退源；S6 终判须标注"
+ ]
+}

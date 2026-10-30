@@ -1,0 +1,103 @@
+{
+ "schema": "compile-probe/v1",
+ "stage": "S3-compile-probe",
+ "purpose": "D14①可选工程探针：torch.compile×use_reentrant=False 组合在 τ-tie LTC 训练路径的数值一致性与加速实测；缺一即弃不阻塞，不改科学判据",
+ "criteria_d14": {
+  "compile_pass": "编译通过（compile+首次前向无异常）",
+  "numerical_consistent": "与 eager max_abs_diff < 1e-6（logits 前向 + 梯度反向）",
+  "speedup_ge_1.5x": "实测加速 ≥ 1.5×（eager/compiled 同协议中位 batch 秒）"
+ },
+ "unit_started_at": "2026-10-29T05:47:18.356501",
+ "env": {
+  "torch": "2.10.0+cu128",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU",
+  "ncps": "0.0.2",
+  "matmul_allow_tf32": false,
+  "python": "3.11.9"
+ },
+ "config": {
+  "hidden": 256,
+  "batch": 64,
+  "ode_unfolds": 6,
+  "subsample": 2000,
+  "arm": "B (tau_learnable=True)",
+  "lr": 0.001,
+  "loss": "BCEWithLogits",
+  "grad_clip": "无（F3 监控）",
+  "checkpoint_unfolds": "R3: per-unfold checkpoint(use_reentrant=False)",
+  "checkpoint_experts": "R5: per-expert checkpoint(use_reentrant=False)",
+  "reentrant_note": "reentrant=True 组合本课题已实测失败（闭包图双反传），故只测 use_reentrant=False；mr_moe.py 零改动",
+  "data": "data\\processed\\physionet2019_sample.npz",
+  "data_seed": 20261029,
+  "seq_len": 72,
+  "n_feat": 68,
+  "sub_idx_sha1": "a2ba8268d20d",
+  "timed_step_protocol": ".to+zero_grad+fwd+BCE+backward+gnorm+c_grad+opt.step+synchronize（pilot_train.py:285-309 同构）"
+ },
+ "phases": {
+  "eager": {
+   "warmup_steps": 2,
+   "timed_steps": 3,
+   "step_sec": [
+    4.1943,
+    4.1421,
+    4.1638
+   ],
+   "batch_sec_median": 4.1638,
+   "peak_mem_mib": 1185.7,
+   "loss_first": 0.577373,
+   "loss_last": 0.470351,
+   "grad_global_norm_last": 1.175567,
+   "c_grad_norm_last": 4.431888010003604e-05,
+   "all_finite": true
+  },
+  "numerics": {
+   "compile_sec_cold": 1212.86,
+   "logits_max_abs_diff": 9.313225746154785e-08,
+   "grad_max_abs_diff": 8.940696716308594e-08,
+   "grad_worst_param": "readouts.2.weight",
+   "c_grad_norm_eager": 1.1888590051967185e-05,
+   "c_grad_norm_compiled": 1.1888596418430097e-05,
+   "c_grad_abs_diff": 6.366462912410498e-12,
+   "loss_eager": 0.70394593,
+   "loss_compiled": 0.70394593,
+   "loss_abs_diff": 0.0,
+   "finite_both": true,
+   "init_identical_note": "两模型同 manual_seed(0) 构建（D10），权重逐位一致"
+  },
+  "compiled": {
+   "compile_sec_first_call_this_model": 0.74,
+   "warmup_steps": 2,
+   "timed_steps": 3,
+   "step_sec": [
+    0.7998,
+    0.7951,
+    0.772
+   ],
+   "batch_sec_median": 0.7951,
+   "peak_mem_mib": 1404.5,
+   "loss_first": 0.577373,
+   "loss_last": 0.470351,
+   "grad_global_norm_last": 1.175567,
+   "c_grad_norm_last": 4.431884372024797e-05,
+   "all_finite": true
+  }
+ },
+ "criteria_eval": {
+  "compile_pass": true,
+  "numerical_consistent": true,
+  "speedup_pass": true
+ },
+ "status": "passed",
+ "verdict": "supported",
+ "reason": null,
+ "updated_at": "2026-10-29T06:57:17.970592",
+ "speedup_vs_eager_median": 5.237,
+ "max_abs_diff_overall": 9.313225746154785e-08,
+ "reference_baselines": {
+  "emergency_tier_probe_emerg_h256_b64_batch_sec": 4.433,
+  "smoke_A_s0_batch_sec_median": 3.74,
+  "note": "eager 同协议中位 4.164s（本单元现场实测）；加速比对本单元 eager 中位数，参考基准仅作量级对账"
+ }
+}

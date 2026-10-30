@@ -1,0 +1,740 @@
+{
+ "schema": "pilot-tau-log/v1",
+ "purpose": "D7 τ 日志：τ/增量/‖∂L/∂c‖/相对移动",
+ "runs": {
+  "A_s0": {
+   "arm": "A",
+   "seed": 0,
+   "tau_learnable": false,
+   "entries": [
+    {
+     "epoch": 1,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": null,
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 2,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 3,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 4,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 5,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 6,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tau_order_strict_increasing": true
+    }
+   ]
+  },
+  "A_s1": {
+   "arm": "A",
+   "seed": 1,
+   "tau_learnable": false,
+   "entries": [
+    {
+     "epoch": 1,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": null,
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 2,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 3,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 4,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 5,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 6,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tau_order_strict_increasing": true
+    }
+   ]
+  },
+  "A_s2": {
+   "arm": "A",
+   "seed": 2,
+   "tau_learnable": false,
+   "entries": [
+    {
+     "epoch": 1,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": null,
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 2,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 3,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 4,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": null,
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 5,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 6,
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "c_grad_norm_mean": null,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "tau_order_strict_increasing": true
+    }
+   ]
+  },
+  "B_s0": {
+   "arm": "B",
+   "seed": 0,
+   "tau_learnable": true,
+   "entries": [
+    {
+     "epoch": 1,
+     "tau": [
+      0.979843,
+      9.947735,
+      99.91539
+     ],
+     "increments": [
+      0.979843,
+      8.967892,
+      89.967651
+     ],
+     "c_grad_norm_mean": 5.19465e-05,
+     "tau_rel_move_vs_prev_epoch": null,
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 2,
+     "tau": [
+      0.967674,
+      9.915912,
+      99.864594
+     ],
+     "increments": [
+      0.967674,
+      8.948238,
+      89.948685
+     ],
+     "c_grad_norm_mean": 2.33272e-05,
+     "tau_rel_move_vs_prev_epoch": [
+      0.01241934,
+      0.00319902,
+      0.00050839
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 3,
+     "tau": [
+      0.963102,
+      9.903881,
+      99.845886
+     ],
+     "increments": [
+      0.963102,
+      8.940779,
+      89.942001
+     ],
+     "c_grad_norm_mean": 1.0195e-05,
+     "tau_rel_move_vs_prev_epoch": [
+      0.00472473,
+      0.0012133,
+      0.00018733
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 4,
+     "tau": [
+      0.960699,
+      9.897535,
+      99.836403
+     ],
+     "increments": [
+      0.960699,
+      8.936837,
+      89.938866
+     ],
+     "c_grad_norm_mean": 8.5336e-06,
+     "tau_rel_move_vs_prev_epoch": [
+      0.00249506,
+      0.00064076,
+      9.498e-05
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 5,
+     "tau": [
+      0.959728,
+      9.894965,
+      99.833015
+     ],
+     "increments": [
+      0.959728,
+      8.935237,
+      89.938049
+     ],
+     "c_grad_norm_mean": 8.3798e-06,
+     "tau_rel_move_vs_prev_epoch": [
+      0.00101072,
+      0.00025966,
+      3.394e-05
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 6,
+     "tau": [
+      0.958478,
+      9.891654,
+      99.828354
+     ],
+     "increments": [
+      0.958478,
+      8.933176,
+      89.936699
+     ],
+     "c_grad_norm_mean": 6.8308e-06,
+     "tau_rel_move_vs_prev_epoch": [
+      0.00130245,
+      0.00033461,
+      4.669e-05
+     ],
+     "tau_order_strict_increasing": true
+    }
+   ]
+  },
+  "B_s1": {
+   "arm": "B",
+   "seed": 1,
+   "tau_learnable": true,
+   "entries": [
+    {
+     "epoch": 1,
+     "tau": [
+      0.982264,
+      9.954,
+      99.924698
+     ],
+     "increments": [
+      0.982264,
+      8.971737,
+      89.970695
+     ],
+     "c_grad_norm_mean": 4.28285e-05,
+     "tau_rel_move_vs_prev_epoch": null,
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 2,
+     "tau": [
+      0.969108,
+      9.919626,
+      99.869911
+     ],
+     "increments": [
+      0.969108,
+      8.950518,
+      89.950287
+     ],
+     "c_grad_norm_mean": 2.0555e-05,
+     "tau_rel_move_vs_prev_epoch": [
+      0.01339355,
+      0.00345329,
+      0.00054828
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 3,
+     "tau": [
+      0.96381,
+      9.905686,
+      99.849297
+     ],
+     "increments": [
+      0.96381,
+      8.941876,
+      89.943611
+     ],
+     "c_grad_norm_mean": 1.13765e-05,
+     "tau_rel_move_vs_prev_epoch": [
+      0.00546688,
+      0.00140529,
+      0.00020641
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 4,
+     "tau": [
+      0.961993,
+      9.90089,
+      99.844193
+     ],
+     "increments": [
+      0.961993,
+      8.938897,
+      89.943298
+     ],
+     "c_grad_norm_mean": 8.3557e-06,
+     "tau_rel_move_vs_prev_epoch": [
+      0.00188523,
+      0.00048417,
+      5.112e-05
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 5,
+     "tau": [
+      0.959445,
+      9.89415,
+      99.835999
+     ],
+     "increments": [
+      0.959445,
+      8.934705,
+      89.941849
+     ],
+     "c_grad_norm_mean": 4.9642e-06,
+     "tau_rel_move_vs_prev_epoch": [
+      0.00264867,
+      0.00068075,
+      8.207e-05
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 6,
+     "tau": [
+      0.956341,
+      9.885924,
+      99.825455
+     ],
+     "increments": [
+      0.956341,
+      8.929584,
+      89.939529
+     ],
+     "c_grad_norm_mean": 5.8117e-06,
+     "tau_rel_move_vs_prev_epoch": [
+      0.0032352,
+      0.0008314,
+      0.00010561
+     ],
+     "tau_order_strict_increasing": true
+    }
+   ]
+  },
+  "B_s2": {
+   "arm": "B",
+   "seed": 2,
+   "tau_learnable": true,
+   "entries": [
+    {
+     "epoch": 1,
+     "tau": [
+      0.981628,
+      9.95237,
+      99.919525
+     ],
+     "increments": [
+      0.981628,
+      8.970741,
+      89.967155
+     ],
+     "c_grad_norm_mean": 5.43942e-05,
+     "tau_rel_move_vs_prev_epoch": null,
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 2,
+     "tau": [
+      0.966252,
+      9.912165,
+      99.854301
+     ],
+     "increments": [
+      0.966252,
+      8.945913,
+      89.942139
+     ],
+     "c_grad_norm_mean": 3.42521e-05,
+     "tau_rel_move_vs_prev_epoch": [
+      0.01566377,
+      0.00403974,
+      0.00065277
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 3,
+     "tau": [
+      0.957105,
+      9.888043,
+      99.815582
+     ],
+     "increments": [
+      0.957105,
+      8.930939,
+      89.927536
+     ],
+     "c_grad_norm_mean": 2.44026e-05,
+     "tau_rel_move_vs_prev_epoch": [
+      0.00946647,
+      0.00243358,
+      0.00038775
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 4,
+     "tau": [
+      0.9495,
+      9.867869,
+      99.783295
+     ],
+     "increments": [
+      0.9495,
+      8.918369,
+      89.915428
+     ],
+     "c_grad_norm_mean": 2.20665e-05,
+     "tau_rel_move_vs_prev_epoch": [
+      0.00794584,
+      0.00204024,
+      0.00032347
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 5,
+     "tau": [
+      0.942774,
+      9.849941,
+      99.754822
+     ],
+     "increments": [
+      0.942774,
+      8.907167,
+      89.904877
+     ],
+     "c_grad_norm_mean": 2.07239e-05,
+     "tau_rel_move_vs_prev_epoch": [
+      0.00708373,
+      0.00181681,
+      0.00028535
+     ],
+     "tau_order_strict_increasing": true
+    },
+    {
+     "epoch": 6,
+     "tau": [
+      0.937164,
+      9.834926,
+      99.731377
+     ],
+     "increments": [
+      0.937164,
+      8.897761,
+      89.896454
+     ],
+     "c_grad_norm_mean": 1.45344e-05,
+     "tau_rel_move_vs_prev_epoch": [
+      0.00595052,
+      0.00152437,
+      0.00023503
+     ],
+     "tau_order_strict_increasing": true
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,527 @@
+{
+  "schema": "research-topic-admission/v1",
+  "decision": "admitted",
+  "project": "让多时间尺度液态专家自己学时间常数-d2841418",
+  "approval_id": "auto:cand-d284141887d3f6b8",
+  "screened_at": "2026-10-25",
+  "rescreened_at": "2026-10-25T21:30:54+08:00",
+  "screened_by": "lab-scout candidate_screening unit (t_43e78121)；外部维护 agent 2026-10-25 21:2x-21:3x 做 schema 修复与全文补读",
+  "decision_basis": "缺口为主对标论文作者自认的 Future Work §4.2（本次维护复核重读本地 PDF 第 9 页原文核实：τ_k 手工指定且训练中固定，作者提出可学习化扩展）；截至筛查日无任何发表工作占据「MR-MoE / LNN-MoE + 可学习时间常数 + 败血症」该具体设置（四渠道检索 + 14 条后向引文，0 命中；OpenAlex citing works=0，本次直连复核）；真实验证路径（公开数据 + 可复现架构 + 单卡算力）成立；在用户指定方向与选题口径内。；云端检索 rid 20261025-172005-4823e1e5d8270575 于 2026-10-25 21:29 收割，报告未见同型占坑（二手材料，见 EV-15），但点名 LiquidTAD（arXiv:2604.18274）——已由本次补读全文并列入 closest_work（EV-14）。",
+  "research_question": "在 MR-MoE 的三个 LNN 专家中，把手工固定、且满足 τ1≪τ2≪τ3 的时间常数换成每个专家一份的保序可学习参数（τ_k=softplus(a_k)+累积正偏移，训练中保持快/中/慢顺序），能否在败血症预测上稳定提升 AUROC/AUPRC，并让学到的 τ 保持时间尺度顺序？",
+  "main_reference": {
+    "title": "Multi-Rate Mixture of Experts for Accelerating Liquid Neural Network Training",
+    "arxiv": "2606.12240v1",
+    "authors": "Shilong Zong, Almuatazbellah Boker, Hoda Eldardiry (Virginia Tech)",
+    "submitted": "2026-06-10",
+    "openalex": "W7164356256",
+    "cited_by_count": 0,
+    "code_released": false,
+    "paper_checklist_quote": "Open Access to Data and Code: Not yet.",
+    "references_count": 14
+  },
+  "gap_verification": {
+    "section": "§4.2 Learnable Time Constants",
+    "verbatim": "In the current model, the time constants τk associated with each expert are manually specified and remain fixed during training. While this provides a clear separation of time scales, it may not optimally reflect the underlying dynamics of the data. An important extension is to make the time constants learnable parameters that can be adapted during training. This would allow the model to automatically discover appropriate temporal scales from data, potentially leading to improved performance and better generalization.",
+    "verified_from": "arXiv:2606.12240v1 本地 PDF 第 9 页（G:/research-papers/2606.12240.pdf，19 页），2026-10-25 首次读取（旧记录记 arXiv HTML 全文）；2026-10-25 21:25 维护复核重读同页，逐词一致（PDF 文本层无空格，引文按原词序复原空格）",
+    "claim_in_brief": "brief.md 称缺口对应 Future Work §4.2——与原文一致，成立"
+  },
+  "closest_work": [
+    {
+      "title": "Multi-Rate Mixture of Experts for Accelerating Liquid Neural Network Training",
+      "source": "arXiv:2606.12240v1（本地 PDF G:/research-papers/2606.12240.pdf 全文 19 页；arXiv HTML 同文）",
+      "date": "2026-06-10",
+      "what_it_did": "提出 MR-MoE：K=3 个 LTC/CfC 液态专家各持一个手工指定、训练中固定的时间常数 τ_k（τ1≪τ2≪τ3），softmax 门控 MLP 加权，另加特征级与时序注意力；在 Moor et al. 2023 败血症数据上按 Che et al. 2018 划分，与 LSTM、单体 LNN、普通 MoE 比较 AUROC/AUPRC，三个专家联合训练。论文自认无代码与数据发布（checklist #5 Not yet）、无误差棒与显著性检验（#7）、未给 τ 具体数值/batch size/训练轮数。",
+      "difference": "本课题只把固定标量 τ_k 换成每个专家一份的保序可学习参数（其余结构、专家数、门控、注意力、数据处理与联合训练方式全部不变），在同一数据划分上做固定 τ 与可学习 τ 的单变量对照，报三种子 AUROC/AUPRC 并记录学到的 τ 数值与快/中/慢排序是否保持；主论文没有可学习 τ 的实验臂，也没有对应统计。",
+      "full_text_checked": true,
+      "evidence_refs": [
+        "EV-01",
+        "EV-02",
+        "EV-03",
+        "EV-04"
+      ]
+    },
+    {
+      "title": "Liquid Time-constant Networks",
+      "source": "arXiv:2006.04439（本次 ar5iv 全文 HTML 补读；AAAI 2021；OpenAlex W3174911860）",
+      "date": "2020-06-08（arXiv v1）；AAAI 2021 正式发表",
+      "what_it_did": "提出 LTC：隐藏状态动力学写成线性一阶 ODE 加非线性门控，时间常数不再固定，而由网络 f 随输入与状态调制（τ_sys = τ/(1+τ f(x(t),I(t),t,θ))），τ 本身作为可训练参数随 BPTT 一起学习；证明 τ 与状态有界，并用轨迹长度刻画表达力；在 11 个时间序列预测任务上与 LSTM、CT-RNN、Neural ODE 等比较。",
+      "difference": "LTC 是单体连续时间网络，τ 是每个神经元一份、随输入变化的可学习参数，没有「多个专家各持一个时间尺度」的结构，也没有保序约束；评测是通用时间序列预测，不涉 MoE 门控、败血症或 §4.2 的固定-可学习对照。它证明「τ 可学习」在机制层早已存在（本课题不得主张该机制新颖），但没有回答 MR-MoE 设置下保序可学习 τ 相对手工 τ 是否有增益。",
+      "full_text_checked": true,
+      "evidence_refs": [
+        "EV-05",
+        "EV-06"
+      ]
+    },
+    {
+      "title": "LiquidTAD: Efficient Temporal Action Detection via Parallel Liquid-Inspired Temporal Relaxation",
+      "source": "arXiv:2604.18274（本次 ar5iv 全文 HTML 补读）",
+      "date": "2026-04（arXiv:2604.18274 v1）",
+      "what_it_did": "把 CfC 的指数松弛先验改写成可并行算子用于时序动作检测：在特征金字塔每个层级学一个通道共享的标量衰减率 λ_l=Softplus(ρ_l)+ε（λ_l=1/τ_l），并用 Hierarchical Decay-Rate Sharing 让各层级有独立的尺度对齐衰减；在 THUMOS-14（avg mAP 69.46，10.82M 参数）与 ActivityNet-1.3（37.06）上验证效率-精度折中。",
+      "difference": "LiquidTAD 是动作检测框架，没有专家混合与门控路由，也没有跨层级/跨专家的保序约束（各层 λ 独立学习，不保证快<中<慢）；评测是 THUMOS-14/ActivityNet 的视频动作检测，不涉败血症序列分类，也没有「固定 τ vs 可学习 τ」的受控对照。它证明多尺度液态模型里 τ/λ 可学习已有发表，但没有回答 MR-MoE 下每个专家一份保序可学习 τ 是否有增益。",
+      "full_text_checked": true,
+      "evidence_refs": [
+        "EV-14"
+      ]
+    }
+  ],
+  "search_log": [
+    {
+      "query": "arXiv:2606.12240v1 全文（本地 PDF 19 页，重点 §4.2/checklist/References）",
+      "channel": "本地 PDF 全文抽取 (pdfplumber)",
+      "checked_at": "2026-10-25 21:25 +08:00（首次读取 2026-10-25 16:19-16:24）",
+      "result": "§4.2 原文（p.9）、checklist #5/#7（p.19）、References 14 条（p.18）"
+    },
+    {
+      "query": "MR-MoE multi-resolution mixture of experts sepsis",
+      "channel": "web_search",
+      "checked_at": "2026-10-25 16:2x +08:00",
+      "result": "定位主论文 arXiv:2606.12240（旧 screening 记录）"
+    },
+    {
+      "query": "mixture of experts liquid neural network sepsis time constants fast medium slow",
+      "channel": "web_search",
+      "checked_at": "2026-10-25 16:3x +08:00",
+      "result": "主论文 HTML + K=3 专家设置确认"
+    },
+    {
+      "query": "learnable time constants mixture of experts liquid neural network sepsis",
+      "channel": "web_search",
+      "checked_at": "2026-10-25 16:5x +08:00",
+      "result": "0 直接命中；返回主论文与 MTLiquid/LTC 背景"
+    },
+    {
+      "query": "multi-timescale learnable time constants ordered mixture of experts",
+      "channel": "web_search",
+      "checked_at": "2026-10-25 16:6x +08:00",
+      "result": "仅 Time-MoE/MOIRAI-MoE/Seg-MoE（频率分工，无连续时间 τ），无重叠"
+    },
+    {
+      "query": "works/doi:10.48550/arXiv.2606.12240 + works?filter=cites:W7164356256",
+      "channel": "openalex direct api",
+      "checked_at": "2026-10-25 21:26 +08:00",
+      "result": "W7164356256；cited_by_count=0；citing works meta.count=0（HTTP 200）"
+    },
+    {
+      "query": "Liquid Time-constant Networks arXiv:2006.04439 全文（ar5iv HTML）",
+      "channel": "arxiv full-text HTML (ar5iv)",
+      "checked_at": "2026-10-25 21:28 +08:00",
+      "result": "HTTP 200；读到摘要、§1、§2（含 Algorithm 1）、§3、§4 开头（页面在 §4 后截断）；补出全文证据 EV-05/EV-06"
+    },
+    {
+      "query": "works/doi:10.48550/arXiv.2006.04439",
+      "channel": "openalex direct api",
+      "checked_at": "2026-10-25 21:28 +08:00",
+      "result": "W3174911860；cited_by_count=5；publication_date=2020-06-08"
+    },
+    {
+      "query": "lit_query (s2/openalex)：multi-resolution mixture of experts sepsis prediction liquid neural network",
+      "channel": "lit_query (s2/openalex)",
+      "checked_at": "2026-10-25 16:2x +08:00",
+      "result": "工具超时（S2 限流），未采用；改直连 API"
+    },
+    {
+      "query": "Moor 2023 sepsis dataset public availability",
+      "channel": "web_search + web_extract",
+      "checked_at": "2026-10-25 16:6x +08:00",
+      "result": "eClinicalMedicine 62，public harmonised dataset 确认（旧 screening 记录）"
+    },
+    {
+      "query": "github MR-MoE liquid neural network code",
+      "channel": "web_search",
+      "checked_at": "2026-10-25 16:6x +08:00",
+      "result": "无官方代码仓库（仅通用 MoE 仓库）"
+    },
+    {
+      "query": "research-approval.json / notes/DECISIONS.md / _state/user-direction.json / _state/research-approvals/auto-approvals.jsonl 本地核对",
+      "channel": "本地文件核验",
+      "checked_at": "2026-10-25 21:24 +08:00",
+      "result": "审批状态 approved（auto:cand-d284141887d3f6b8，2026-10-25T13:11:08+08:00）；方向文件在效期内"
+    },
+    {
+      "query": "LiquidTAD arXiv:2604.18274 全文（ar5iv HTML）",
+      "channel": "arxiv full-text HTML (ar5iv)",
+      "checked_at": "2026-10-25 21:34 +08:00",
+      "result": "HTTP 200；读到摘要、§I、§II-B、§III-B/§III-C（含 λl 公式与层级共享策略）；页面在 §IV 后截断"
+    },
+    {
+      "query": "harvest/20261025-172005-4823e1e5d8270575.md（云端检索回执）",
+      "channel": "本地文件核验",
+      "checked_at": "2026-10-25 21:31 +08:00",
+      "result": "已收割；未发现同型占坑；推荐保序累积 softplus 参数化；点名 LiquidTAD（二手材料）"
+    }
+  ],
+  "evidence_ledger": [
+    {
+      "evidence_id": "EV-01",
+      "kind": "full_text",
+      "status": "supported",
+      "source": "arXiv:2606.12240v1（本地 PDF G:/research-papers/2606.12240.pdf，19 页；arXiv HTML 同文）",
+      "locator": "§4.2 Learnable Time Constants，第 9 页",
+      "observation": "作者自认每个专家的时间常数 τ_k 是手工指定且在训练中保持固定，并提出把时间常数变成可在训练中自适应的可学习参数作为重要扩展。",
+      "quote": "In the current model, the time constants τk associated with each expert are manually specified and remain fixed during training. While this provides a clear separation of time scales, it may not optimally reflect the underlying dynamics of the data. An important extension is to make the time constants learnable parameters that can be adapted during training."
+    },
+    {
+      "evidence_id": "EV-02",
+      "kind": "full_text",
+      "status": "supported",
+      "source": "arXiv:2606.12240v1（本地 PDF；arXiv HTML）",
+      "locator": "§2.4 Multi-Rate-Mixture of Experts Eq.8；§3.3 Implementation Details",
+      "observation": "K=3 个专家，各持固定时间常数且 τ1≪τ2≪τ3；each expert 1500 neurons，Adam lr=1e-3，BCE，gating 为小 MLP。论文未给 τ 的具体数值、batch size 数值（仅称 fixed）、训练轮数与 f_k 具体形式，复现须自行冻结配置并记录差异。",
+      "quote": "where smaller τk corresponds to faster dynamics and larger τk captures slower temporal trends."
+    },
+    {
+      "evidence_id": "EV-03",
+      "kind": "full_text",
+      "status": "supported",
+      "source": "arXiv:2606.12240v1（本地 PDF，Checklist）",
+      "locator": "Checklist #7 Experiment Statistical Significance，第 19 页",
+      "observation": "论文自认结果没有误差棒与显著性检验（计算资源所限），故原论文的单次运行数字不含不确定性估计。",
+      "quote": "No. Error bars and statistical significance tests are not included due to computational constraints."
+    },
+    {
+      "evidence_id": "EV-04",
+      "kind": "full_text",
+      "status": "supported",
+      "source": "arXiv:2606.12240v1（本地 PDF，Checklist）",
+      "locator": "Checklist #5 Open Access to Data and Code，第 19 页",
+      "observation": "论文自认数据与代码尚未公开，基线须按论文公式自行实现。",
+      "quote": "5. Open Access to Data and Code: Not yet."
+    },
+    {
+      "evidence_id": "EV-05",
+      "kind": "full_text",
+      "status": "supported",
+      "source": "arXiv:2006.04439（https://ar5iv.labs.arxiv.org/html/2006.04439，HTTP 200，2026-10-25 21:28 +08:00 抓取）",
+      "locator": "§1 Introduction，Liquid time-constant 段",
+      "observation": "LTC 中网络 f 不仅决定隐藏状态导数，还充当随输入变化的时间常数 τ_sys=τ/(1+τf)；τ 因此是可学习、输入依赖的量——「让 τ 可学习」在机制层早已存在。",
+      "quote": "A neural network f not only determines the derivative of the hidden state x(t), but also serves as an input-dependent varying time-constant (τ_sys = τ / (1 + τ f(x(t), I(t), t, θ))) for the learning system (Time constant is a parameter characterizing the speed and the coupling sensitivity of an ODE)."
+    },
+    {
+      "evidence_id": "EV-06",
+      "kind": "full_text",
+      "status": "supported",
+      "source": "arXiv:2006.04439（https://ar5iv.labs.arxiv.org/html/2006.04439，HTTP 200，2026-10-25 21:28 +08:00 抓取）",
+      "locator": "§2 LTCs forward-pass by a fused ODE solvers，Algorithm 1",
+      "observation": "τ 被列为 LTC 的可训练参数（N×1 时间常数向量，与权重/偏置一起优化），并经 BPTT 学习。",
+      "quote": "Parameters: θ = {τ(N×1) = time-constant, γ(M×N) = weights, γr(N×N) = recurrent weights, μ(N×1) = biases}"
+    },
+    {
+      "evidence_id": "EV-07",
+      "kind": "metadata",
+      "status": "supported",
+      "source": "https://api.openalex.org/works/doi:10.48550/arXiv.2606.12240",
+      "locator": "cited_by_count / publication_date 字段（HTTP 200，2026-10-25 21:26 +08:00 直连）",
+      "observation": "OpenAlex W7164356256；cited_by_count=0；publication_date=2026-06-10；标题与 arXiv 主论文一致。"
+    },
+    {
+      "evidence_id": "EV-08",
+      "kind": "citation_backward",
+      "status": "supported",
+      "source": "arXiv:2606.12240v1 References，第 18 页（本地 PDF）",
+      "locator": "References 全部条目（14 条）",
+      "observation": "逐条核对 14 条：Che 2018、Moor 2023、Zong 2025（arXiv:2510.07578）、Chen 2018、Hasani 2021 LTC、Rubanova 2019、Kidger 2020、Shazeer 2017、Bahdanau 2015、Choi 2016、Jacobs 1991、Kokotović 1999、Saito 2015、Eldardiry 2012；无「可学习专家时间常数 × MoE × 败血症」同型工作被引。旧记录写 12 条，本次按页面实数更正为 14 条。"
+    },
+    {
+      "evidence_id": "EV-09",
+      "kind": "citation_forward",
+      "status": "supported",
+      "source": "https://api.openalex.org/works?filter=cites:W7164356256",
+      "locator": "meta.count（HTTP 200，2026-10-25 21:26 +08:00 直连）",
+      "observation": "0 条 citing works：截至查询时无已核验下游跟进。引用窗口约 4.5 个月，不能据此推断无人跟进。"
+    },
+    {
+      "evidence_id": "EV-10",
+      "kind": "benchmark",
+      "status": "supported",
+      "source": "Moor et al. 2023, eClinicalMedicine 62:102124",
+      "locator": "摘要/结果（旧 screening 2026-10-25 16:42 抓取 thelancet.com 全文的记录，本次未重新抓取）",
+      "observation": "136,478 例 ICU 入院，US/NL/CH 四库 harmonized，public 数据集；内部 AUC 0.846、跨站点 0.761；MR-MoE 原论文即用该数据 + Che et al. 2018 划分。"
+    },
+    {
+      "evidence_id": "EV-11",
+      "kind": "metadata",
+      "status": "unknown",
+      "source": "api.semanticscholar.org（lit_query ×5 + 直连 ×2）",
+      "locator": "HTTP 429 限流记录（旧 screening 2026-10-25 16:25-16:35）",
+      "observation": "S2 全程 429，向前引文交叉验证未取得，记 unknown（OpenAlex 侧为 0，EV-09）。"
+    },
+    {
+      "evidence_id": "EV-12",
+      "kind": "project_record",
+      "status": "supported",
+      "source": "research/分阶段训练多时间尺度液态专家-58b37930/admission.json + 本课题 notes/DECISIONS.md",
+      "locator": "兄弟课题 decision_basis 与 novelty_checks 第 5 条；本课题 DECISIONS 第 2 条",
+      "observation": "兄弟课题 58b37930 走 §4.1（训练流程，τ 保持固定）；本课题走 §4.2（τ 参数化，训练保持联合）。改动点与判据不同、不重复；两者共享 MR-MoE 自实现基线或串行推进。"
+    },
+    {
+      "evidence_id": "EV-13",
+      "kind": "metadata",
+      "status": "supported",
+      "source": "https://api.openalex.org/works/doi:10.48550/arXiv.2006.04439",
+      "locator": "id / cited_by_count / publication_date 字段（HTTP 200，2026-10-25 21:28 +08:00 直连）",
+      "observation": "OpenAlex W3174911860；cited_by_count=5；publication_date=2020-06-08；标题 Liquid Time-constant Networks。与旧 related-work 记录的被引 539 口径不一致（来源不同），本课题不依赖引用计数结论。"
+    },
+    {
+      "evidence_id": "EV-14",
+      "kind": "full_text",
+      "status": "supported",
+      "source": "arXiv:2604.18274（https://ar5iv.labs.arxiv.org/html/2604.18274，HTTP 200，2026-10-25 21:34 +08:00 抓取）",
+      "locator": "§III-B Step 2: Static Decay-Rate Stabilization（Eq.2）；§III-C Hierarchical Decay-Rate Sharing",
+      "observation": "每个时间块用一个可学习的标量衰减率 λ_l=Softplus(ρ_l)+ε 代替输入依赖的 τ_t，λ_l 作为逆时间常数（λ_l=1/τ_l）；同一 LPTB 内通道共享，各金字塔层级独立学习，没有跨层/跨专家的顺序约束。",
+      "quote": "We therefore replace the dynamic time constant with a block-wise learnable decay rate λl: λl = Softplus(ρl) + ϵ, αl = exp(−λl Δt)"
+    },
+    {
+      "evidence_id": "EV-15",
+      "kind": "project_record",
+      "status": "unknown",
+      "source": "research/harvest/20261025-172005-4823e1e5d8270575.md（gemini bridge 云端检索回执，rid=20261025-172005-4823e1e5d8270575，收割于 2026-10-25T21:29:29）",
+      "locator": "摘要；发现 1/2/3/4；「未找到与不确定」",
+      "observation": "云端报告结论：未检索到「LNN 混合专家中可学习时间常数保序约束」的专有工作或开源包；推荐累积正增量保序参数化（称 UMNN/S4 已有该工具）；提到 LiquidTAD 在时间金字塔各层级学可学习 τ，并建议冻结 PhysioNet 2019。报告为二手综述，未逐篇读原文的部分记 unknown；LiquidTAD 已由本次自行补读全文（EV-14），PhysioNet 建议未采纳为本记录事实。"
+    }
+  ],
+  "citation_chasing": {
+    "backward": [
+      "References 第 18 页 14 条逐条核对（EV-08）：Che 2018 / Moor 2023 / Zong 2025 / Chen 2018 / Hasani 2021 LTC / Rubanova 2019 / Kidger 2020 / Shazeer 2017 / Bahdanau 2015 / Choi 2016 / Jacobs 1991 / Kokotović 1999 / Saito 2015 / Eldardiry 2012；无可学习专家时间常数 + MoE 的同型工作被引。"
+    ],
+    "forward": [
+      "OpenAlex filter=cites:W7164356256 → meta.count=0（2026-10-25 21:26 直连，EV-09）。",
+      "S2 通道全程 429，交叉验证未取得（EV-11，unknown）；design 阶段重试。"
+    ],
+    "main_paper_incoming": "OpenAlex cited_by_count=0 且 citing works 查询返回 0（本次直连复核，EV-07/EV-09）；S2 通道 429 未交叉验证（EV-11，unknown）。结论：无已核验下游跟进；不得据此写「无人跟进」。",
+    "main_paper_outgoing": "14 条参考文献全读（EV-08）：Zong 2025（同组 LNN vs RNN 比较）→ Hasani LTC 2021 → Rubanova ODE-RNN 2019 → Kidger Neural CDE 2020 → Shazeer MoE 2017 → Kokotović 1999 等；无「可学习专家时间常数」的 MoE 先例被引。本课题的思想位置：LTC/CfC 的可学习 τ 传统 × MoE 专家分工，落在 MR-MoE 作者自认缺口上。",
+    "adjacent_works": [
+      "arXiv:2006.04439 LTC（AAAI 2021）— τ 可学习且输入依赖的机制先例（本次全文补读）",
+      "arXiv:2602.06997 — LNN 可学习 τ 自组织时间层级（情绪识别，摘要级记录）",
+      "arXiv:2609.33232 MTLiquid — 多任务 LNN 医疗监测，不动 τ",
+      "arXiv:2603.18331 — Neural ODE 理论基础，τ 可学习为既定形式",
+      "Time-MoE / MOIRAI-MoE / Seg-MoE — 多分辨率 MoE 预测线，与连续时间 τ 无关",
+      "arXiv:2604.18274 LiquidTAD — 多尺度液态模型逐层级可学习衰减率（本次全文补读）"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim": "MR-MoE §4.2 自认每个专家的 τ_k 手工指定且训练中固定，并把可学习时间常数列为重要扩展；当前模型无可学习 τ 设定。",
+      "status": "supported",
+      "evidence_refs": [
+        "EV-01"
+      ]
+    },
+    {
+      "claim_id": "C2",
+      "claim": "原论文未给 τ 数值/batch size 数值/训练轮数，且自认无代码与数据发布、结果无误差棒与显著性检验——基线须自实现并自行冻结配置。",
+      "status": "supported",
+      "evidence_refs": [
+        "EV-02",
+        "EV-03",
+        "EV-04"
+      ]
+    },
+    {
+      "claim_id": "C3",
+      "claim": "OpenAlex 记录无下游引用（cited_by_count=0 且 citing works=0）。",
+      "status": "supported",
+      "evidence_refs": [
+        "EV-07",
+        "EV-09"
+      ]
+    },
+    {
+      "claim_id": "C4",
+      "claim": "可学习时间常数在机制层已被 LTC 占先：τ 是 LTC 的可训练参数且随输入变化；本课题不得主张「让 τ 可学习」是机制创新。",
+      "status": "supported",
+      "evidence_refs": [
+        "EV-05",
+        "EV-06",
+        "EV-13",
+        "EV-14"
+      ]
+    },
+    {
+      "claim_id": "C5",
+      "claim": "可检索范围内（四渠道 + 14 条后向引文）无「LNN-MoE + 可学习专家时间常数 + 败血症」同型工作；检索是有界的，S2 与云端结果未覆盖，故该结论保持 unknown。",
+      "status": "unknown",
+      "evidence_refs": [
+        "EV-08",
+        "EV-11",
+        "EV-15"
+      ]
+    },
+    {
+      "claim_id": "C6",
+      "claim": "与兄弟课题 58b37930（§4.1 分阶段训练）改动点不同、判据不同，不重复；共享 MR-MoE 基线实现或串行的协调点成立。",
+      "status": "supported",
+      "evidence_refs": [
+        "EV-12"
+      ]
+    },
+    {
+      "claim_id": "C7",
+      "claim": "真实验证路径成立：公开败血症数据（Moor 2023，回退 PhysioNet/CinC 2019）+ 按论文公式自实现的真实 MR-MoE + 单卡算力，不依赖玩具环境。",
+      "status": "supported",
+      "evidence_refs": [
+        "EV-02",
+        "EV-10"
+      ]
+    },
+    {
+      "claim_id": "C8",
+      "claim": "LiquidTAD 已在多尺度液态模型里学习每层一个通道共享的衰减率 λ_l（=1/τ_l），说明「多尺度液态模型的 τ/λ 可学习」已被发表；但它没有专家混合路由、没有跨专家保序约束、任务是动作检测，也未做固定 vs 可学习的受控对照。",
+      "status": "supported",
+      "evidence_refs": [
+        "EV-14",
+        "EV-15"
+      ]
+    }
+  ],
+  "uncertainties": [
+    "U1：S2 通道 429 未核验向前引文（OpenAlex 侧 0），design 阶段或下轮 screening 重试 S2/OpenAlex citing works 明细。",
+    "U2：云端检索 rid eb215c80344add8f（15:33 提交）未收割；若返回同型占坑证据须重开 screening。",
+    "U3：Moor 2023 数据的实际获取方式（公开 harmonized 集 vs 四库分别申请）未实测；design 阶段二选一冻结（Moor 2023 或 PhysioNet/CinC 2019）并核验预处理与序列长度分布。",
+    "U4：MR-MoE 基线自实现的保真度上限：论文未给 τ 数值/batch/epochs/f_k 形式，且数值为单次运行；不以复现论文绝对数值为目标，以「固定 τ 的 MR-MoE 在本实现下优于单体 LNN」作方向性健全性检查。",
+    "U5：本机 ncps 0.0.2（非论文同款 0.0.7），固定/可学习 τ 设定下 CfC/LTC cell 的 τ 接口行为需 pilot 第一步核验。",
+    "U6：保序参数化（softplus + 累积正偏移）能否在训练中保持快/中/慢顺序、τ 是否塌缩到边界，尚未实测；LTC 的 τ 是每神经元随输入变化的参数，与本课题「每专家一个标量 τ」并非同一参数化，机制先例不等于本设置已被验证。",
+    "U7：LTC 引用计数口径不一致（旧记录 539，本次 OpenAlex W3174911860 显示 5）；本课题不依赖该计数，只把 LTC 当机制先例。",
+    "U8：LiquidTAD 只按金字塔层级学独立的 λ_l，没有跨专家保序；本课题的「保序专家 τ」与它的「层级 λ」差异需在 design 阶段写成可核对的对照说明，避免被审稿人视为同型工作。"
+  ],
+  "contribution_type": "new_measurement",
+  "non_incremental_argument": {
+    "claim": "贡献是在 MR-MoE 这个已发表架构上，回答作者自己在 §4.2 提出的开放问题：把每个专家的手工固定 τ 换成保序可学习参数后，数据驱动的 τ 是否优于手工 τ、快/中/慢顺序是否稳定；交付物是同一架构同一划分上的单变量受控对照、原论文缺失的三种子统计，以及学到的 τ 数值与排序记录。",
+    "why_not_incremental": "改动只落在 τ 的参数化（一族固定标量换成保序可学习参数），架构、专家数、门控、注意力、数据处理与联合训练方式全部固定，因此差异可归因于 τ 是否由数据决定；可学习 τ 的机制在 LTC/CfC 中早已存在，本课题明确不主张机制新颖，主张的是在 MR-MoE 多时间尺度 + 败血症设置下、带保序约束的受控测量，并补上原论文自认缺失的统计。",
+    "incremental_only": false,
+    "mechanism_novelty_claimed": false
+  },
+  "novelty_checks": {
+    "not_just_hyperparameter_scan": true,
+    "not_model_dataset_metric_swap": true,
+    "not_small_method_tweak": true,
+    "not_toy_only": true,
+    "real_benchmark_exit": true,
+    "closest_work_distinguished": true,
+    "basis": {
+      "not_just_hyperparameter_scan": "对照只改 τ 的参数化（固定标量 vs 保序可学习），不扫学习率/专家数/τ 初始值等超参数。",
+      "not_model_dataset_metric_swap": "模型、数据划分、指标全部沿用主论文设置，只改 τ 是否可学习。",
+      "not_small_method_tweak": "改动面小是用户口径（单缺口单改动），但贡献声称限定为受控测量 + 补原论文缺失的统计，并明确不主张机制新颖；LTC 已证明 τ 可学习是既有机制，closest_work 已逐条划界。",
+      "not_toy_only": "真实公开败血症数据 + 按论文实现真实 MR-MoE（ncps 0.0.2 CfC/LTC cell）。",
+      "real_benchmark_exit": "Moor 2023（回退 PhysioNet/CinC 2019）是原论文使用的公开 benchmark，失败即停。",
+      "closest_work_distinguished": "主论文（被改进对象，全文）、LTC（机制先例，全文补读）与 LiquidTAD（多尺度可学习衰减率先例，全文补读）均逐条划界。"
+    }
+  },
+  "novelty_checks_notes": [
+    {
+      "check": "主对标论文是否已被跟进占据（引文图）",
+      "method": "OpenAlex 工作记录 + 被引查询 + citing works 过滤；S2 交叉验证",
+      "result": "W7164356256 cited_by_count=0 且 citing works=0（2026-10-25 21:26 直连复核，HTTP 200）；S2 论文页仅返回其参考文献，未见引用它的工作；S2 API 全程 429 未交叉验证（记 unknown）。",
+      "verdict": "未被占据（S2 侧 unknown）"
+    },
+    {
+      "check": "是否已有发表工作做「MR-MoE / LNN-MoE + 可学习时间常数 + 败血症」",
+      "method": "web_search 4 组检索式 + arXiv 全文 + 14 条后向引文",
+      "result": "0 命中。检索式见 search_log。",
+      "verdict": "未被占据"
+    },
+    {
+      "check": "「可学习时间常数」本身是否已是红海（机制层）",
+      "method": "文献脉络核查与 LTC 全文补读",
+      "result": "是成熟方向：LTC（Hasani, AAAI 2021）τ 是随输入变化的可训练参数；CfC 闭式可学习 τ；arXiv:2602.06997（2026，EEG 情绪识别）用 log-space 可学习 τ 并自组织出快/中/慢三簇（摘要级记录）。本次补读 LTC 全文（EV-05/EV-06）确认该机制先占。 LiquidTAD（arXiv:2604.18274，2026-04，本次全文补读）把金字塔每层的衰减率 λ_l 设为通道共享可学习标量，进一步确认多尺度液态模型的 τ/λ 可学习已有发表（EV-14）。",
+      "verdict": "机制层已占领——本候选不得声称「让 τ 可学习」是创新；其定位只能是：在 MR-MoE 这个具体已发表缺口上做单点受控实验，回答 §4.2 提出的问题。这与用户批准口径（别人论文缺口上的小改进）一致，不是机制新颖性主张。"
+    },
+    {
+      "check": "多时间尺度 MoE 方向是否拥挤（邻近范式）",
+      "method": "web_search + 既有信号池",
+      "result": "Time-MoE（ICLR 2025）、MOIRAI-MoE（NeurIPS 2024）、Seg-MoE 等多分辨率 MoE 均在时序预测/Transformer 线，专家按频率/片段分工，不涉及连续时间动力学的时间常数；MTLiquid（arXiv:2609.33232）是多任务 LNN 共享骨干，同样不动 τ。无一支与本候选设置重叠。",
+      "verdict": "不重叠"
+    },
+    {
+      "check": "兄弟候选是否重复",
+      "method": "项目目录比对（58b37930 admission.json / DECISIONS.md）",
+      "result": "58b37930（分阶段训练）改训练流程，对应同一论文 §4.1；本候选改 τ 参数化，对应 §4.2。改动点不同、判据不同，不重复。注意：两者都需从零实现 MR-MoE 基线（原论文无代码），若都准入，建议共享基线资产或串行，避免双份实现。",
+      "verdict": "不重复，有实现层协调点"
+    }
+  ],
+  "real_validation_path": {
+    "benchmark": "Moor et al. 2023 harmonised 国际 ICU 败血症数据集（eClinicalMedicine 62:102124，136,478 例 ICU 入院，US/NL/CH 四库，Sepsis-3 标注；MR-MoE 原论文即用此数据与 Che et al. 2018 划分）；回退 PhysioNet/CinC 2019 败血症挑战公开数据。",
+    "model_or_system": "MR-MoE：K=3 个 LNN（ncps 0.0.2 的 CfC/LTC cell）专家，门控 softmax MLP，读出层；把固定标量 τ1≪τ2≪τ3 换成保序可学习参数 τ_k=softplus(a_k)+Σ_{j<k}softplus(b_j)，其余结构、超参与数据处理不变（按原论文 Eq.1-18 实现，论文自认无代码，checklist #5 Not yet）。",
+    "source": "arXiv:2606.12240v1 §2.4/§3.1/§3.3 + Moor et al. 2023 eClinicalMedicine 62:102124",
+    "plan": "同一架构上的单变量对照：A 臂=固定 τ（论文式）；B 臂=保序可学习 τ（其余不变）。每臂 3 个随机种子，报 AUROC/AUPRC 均值与标准差，记录训练后三个 τ 数值、快/中/慢排序是否保持、梯度是否到达 τ 参数、训练是否发散。预注册判据：B 臂三种子平均 AUROC 相对 A 臂 ≥ +0.01、AUPRC 下降不超过 0.01、且三次运行 τ 顺序均为快<中<慢，否则判 FAIL。",
+    "source_verified": true,
+    "real_model": true,
+    "real_benchmark": true,
+    "toy_only": false,
+    "data": {
+      "primary": "Moor et al. 2023（eClinicalMedicine 62）harmonized 国际 ICU 败血症数据集，136,478 例 ICU 入院；论文自述为 public and harmonised dataset。MR-MoE 原论文即用此数据 + Che et al. 2018 划分。",
+      "fallback": "PhysioNet/CinC 2019 败血症挑战数据（Che et al. 2018 协议，原论文引用作划分依据），公开可下载。",
+      "design_stage_must_verify": "两来源的实际获取方式、预处理（前向填充、归一化）与序列长度分布；冻结前二选一，写入预注册。"
+    },
+    "baseline_implementation": {
+      "risk": "原论文无官方代码（checklist 明示 Not yet），MR-MoE 须按 Eqs.1-18 自行实现。",
+      "known_gaps_in_paper": "论文未给出 τ 的具体数值、batch size、训练轮数，f_k 的具体形式也只写到「非线性动力学函数」。",
+      "mitigation": "自行定义并冻结基线配置（τ 三档取值、batch、epochs 全部写死）；不以复现论文绝对数值为目标（论文 AUROC 0.61 显著低于 Moor 原文 0.846，预处理/划分必然有差异），以「固定 τ 的 MR-MoE 在本实现下优于单体 LNN」作为方向性健全性检查。"
+    },
+    "compute": "3 专家 × hidden 1500，单卡 8G 可跑；pilot 用截断序列/子采样控制单实验 ≤12 分钟。",
+    "modification": "仅把固定 τ_k 换成保序可学习参数（如 τ_k=softplus(a_k)+累积正偏移量），一处改动，梯度可回传，不碰架构/专家数/注意力/数据处理。",
+    "metrics": "AUROC、AUPRC、3 个随机种子均值与标准差；记录学到的三个 τ 及排序。预注册判据沿用 brief：三种子平均 AUROC ≥ +0.01 且 AUPRC 不降 0.01 以上，且三次运行均保持 τ 快<中<慢，否则 FAIL。",
+    "verification_note": "数据集来源与统计据旧 screening 记录（EV-10）、模型设置据本次主论文全文重读（EV-02）；本次未重新下载数据。"
+  },
+  "toy_only_risk": {
+    "risk": "pilot 若只在小样本或截断序列上跑，τ 的排序可能被训练噪声主导；若数据获取失败而退化为生成序列，则观测到的 τ 结构没有外部效度。",
+    "mitigation": "只用公开真实败血症数据（Moor 2023，回退 PhysioNet/CinC 2019）与按论文公式实现的 MR-MoE；pilot 只作方向性检查，正式判据要求完整划分与 3 个随机种子；数据拿不到即停，不用替代数据。",
+    "toy_only_only": false
+  },
+  "user_fit_evidence": [
+    {
+      "evidence_type": "direct_user_preference",
+      "source": "research/_state/user-direction.json（schema=research-user-direction/v1）",
+      "date": "2026-10-24T23:57:02+08:00（有效期至 2026-10-31T23:57:02+08:00，筛查日仍在效）",
+      "evidence": "方向原文：液态神经网络（LNN/CfC/LTC）落地应用，只做别人论文里一个具体缺口的小改进，产出能放 GitHub 的小仓库。本候选是该方向的直接实例：只改 MR-MoE §4.2 一个 τ 参数化缺口。"
+    },
+    {
+      "evidence_type": "taste_document",
+      "source": "research/taste.md（2026-10-24 选题口径纠正条目）",
+      "date": "2026-10-24",
+      "evidence": "2026-10-24 选题口径：候选=别人论文里一个具体缺口上的一个小改进（换模块/加修正项/改训练细节），产出=能放 GitHub 的独立小仓库（可复现脚本+README+小结果），单卡 8G、1-2 周出得来、pilot 30 分钟见数；禁止大主题拼接。另有 [correction] 明确禁止用合成数据+自制小网络冒充验证，要求真实模型真实 benchmark。本候选（§4.2 单缺口、只改一处）逐项命中。"
+    },
+    {
+      "evidence_type": "active_project",
+      "source": "research/让多时间尺度液态专家自己学时间常数-d2841418/research-approval.json + brief.md",
+      "date": "2026-10-25T13:11:08+08:00",
+      "evidence": "用户批准立项：approval_id=auto:cand-d284141887d3f6b8，status=approved，mode=full_auto；brief 立项理由为学习液态网络中时间尺度如何由任务数据形成，与用户的 LNN 决策模块项目直接相关。"
+    }
+  ],
+  "stop_if_not_novel": [
+    "出现任何 2026-06 之后发表的工作，在 MR-MoE 或 LNN-MoE 败血症设置里实现可学习/自适应专家时间常数——即停（当前 0 命中）。",
+    "保序参数化导致 τ 塌缩到边界或顺序频繁反转，训练不稳定——即停（没有可解释的 τ 就没有可测量的结论）。",
+    "design 阶段数据核验失败：Moor 2023 harmonized 数据拿不到且 PhysioNet 回退与原论文协议不兼容——即停（无真实 benchmark 不做实验）。",
+    "固定 τ 基线在 8G 单卡 pilot 预算内无法稳定训练——即停（没有基线就没有比较）。",
+    "后续发现原论文 v2 或同组跟进工作已包含该扩展——即停。"
+  ],
+  "first_milestone": {
+    "status": "accepted",
+    "name": "30 分钟 pilot：固定 τ MR-MoE 基线 vs 保序可学习 τ 臂",
+    "acceptance_criteria": "在公开败血症数据的小子采样上跑通固定 τ 的 MR-MoE（K=3，pilot 可缩 hidden）：损失下降、AUROC 可计算；把 τ 换成保序可学习参数后确认梯度到达 τ 参数、训练不发散、τ 顺序在若干步后仍保持；产出含数字的 pilot 日志、两臂验证曲线、训练后的三个 τ 数值与排序，以及与论文的基线配置差异清单。",
+    "evidence_files": [
+      "literature/related-work.md",
+      "brief.md",
+      "research-approval.json",
+      "notes/DECISIONS.md",
+      "PROJECT.md"
+    ]
+  },
+  "notes_for_design": [
+    "新颖性表述纪律：不得把「可学习时间常数」写成创新点（LTC 2021 已占，本次已补读全文）；贡献表述=在 MR-MoE 具体缺口上的受控单点实验 + 原论文缺失的多种子统计与 τ 排序记录。",
+    "与 58b37930 共享 MR-MoE 基线实现资产，或串行推进。",
+    "τ 保序参数化的具体形式在 design 阶段定稿并预注册（候选 brief 写的是 τ_k=softplus(a_k)+有序约束）。",
+    "论文未给 τ 数值/batch/epochs：基线配置自行冻结并记录与论文的差异清单。",
+    "S2 向前引文 unknown 与云端 rid eb215c80344add8f 未收割两项，design 开工前复查一次。"
+  ],
+  "screening_history": {
+    "original_schema": "candidate-screening-admission/v1",
+    "original_decision": "admitted",
+    "original_screened_at": "2026-10-25",
+    "original_screened_by": "lab-scout candidate_screening unit (t_43e78121)",
+    "repair_reason": "旧记录 schema 不被 research-topic-admission.py 接受（unsupported-admission-schema），且 closest_work 只有一条全文证据；本次升级为 research-topic-admission/v1、补 LTC 全文证据、保留旧字段（decision_basis / gap_verification / notes_for_design / approval_id 等）。",
+    "backup_path": "D:\\hermes-data\\backups\\arch\\audit-fixes-20261025-212300\\research\\让多时间尺度液态专家自己学时间常数-d2841418\\admission.json",
+    "references_count_correction": "旧记录称 12 条后向引文，References 页实为 14 条，本次逐条核对并更正（EV-08）。",
+    "harvest_after_screening": "云端 rid 20261025-172005-4823e1e5d8270575 于 2026-10-25 21:29 收割；报告未见同型占坑，点名 LiquidTAD（arXiv:2604.18274），已补读全文并列入 closest_work（EV-14/EV-15）。"
+  }
+}

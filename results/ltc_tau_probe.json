@@ -1,0 +1,208 @@
+{
+ "schema": "ltc-tau-probe/v1",
+ "stage": "S2-gate-checks",
+ "purpose": "ncps 0.0.2 LTC τ-tie 五断言（design.md §五 S2①）",
+ "config": {
+  "input_size": 80,
+  "hidden": 1500,
+  "k": 3,
+  "taus": [
+   1.0,
+   10.0,
+   100.0
+  ],
+  "seq_len": 72,
+  "batch_full": 64,
+  "probe_batch": 8,
+  "device": "cuda",
+  "seed": 0,
+  "a1_samples": 20
+ },
+ "assertions": {
+  "A1_dynamic_separability": {
+   "statement": "同输入下三专家单步状态变化幅度序 ‖Δx1‖>‖Δx2‖>‖Δx3‖",
+   "setup": "臂 B 三专家（init τ=1:10:100），同输入同时刻从 h0=0 单步；mean ‖Δx‖ 对 batch 取平均再对 20 样本取平均",
+   "taus_init": [
+    1.0,
+    10.0,
+    100.0
+   ],
+   "mean_delta_norm_per_expert": [
+    12.909921,
+    12.88823,
+    11.004712
+   ],
+   "mean_ordering_strict": true,
+   "per_sample_strict_order_fraction": 1.0,
+   "per_sample_first3": [
+    [
+     12.90724,
+     12.88615,
+     10.97392
+    ],
+    [
+     12.90887,
+     12.88797,
+     10.99441
+    ],
+    [
+     12.91152,
+     12.88822,
+     11.00901
+    ]
+   ],
+   "controlled_shared_params_only_tau_differs": {
+    "tau_1": 12.908986,
+    "tau_10": 12.908745,
+    "tau_100": 11.00363
+   },
+   "controlled_ordering_strict": true,
+   "pass": true,
+   "pass_criterion": "mean 序严格 ∧ ≥60% 样本严格序（受控变体序必须严格，否则记分支）",
+   "interpretation": "τ 越大膜时间常数越大、单步状态变化越小；受控变体隔离专家参数噪声后若仍有序，则 A1 的序由 τ 驱动而非随机初始化"
+  },
+  "A2_init_equivalence": {
+   "statement": "B(0)≡A(0)：同种子同初始化下臂 B 前向输出与臂 A 逐位一致（max abs diff <1e-6）",
+   "shared_param_count": 61,
+   "shared_param_max_abs_diff": 0.0,
+   "params_only_in_b": [
+    "tau_sched.c"
+   ],
+   "params_only_in_a": [],
+   "tau_arm_a": [
+    1.0,
+    10.0,
+    100.0
+   ],
+   "tau_arm_b": [
+    1.0,
+    10.0,
+    100.0
+   ],
+   "forward_batch": 8,
+   "forward_seq": 72,
+   "logits_max_abs_diff": 0.0,
+   "logits_finite_both": true,
+   "pass": true,
+   "interpretation": "τ 初始化等价（buffer vs Parameter 同值）+ 同 RNG 种子 ⇒ init 处前向逐位一致，排除 E1 实现伪影的 init 偏置"
+  },
+  "A3_grad_reaches_tau": {
+   "statement": "梯度到达 τ 参数：∂L/∂c_j 非零有限，记录 ‖∂L/∂c‖ 与参数梯度中位数对比",
+   "loss": 0.694719,
+   "c_values": [
+    0.541325,
+    8.999877,
+    90.0
+   ],
+   "grad_c_values": [
+    2.975e-07,
+    4.705e-07,
+    4.688e-07
+   ],
+   "grad_c_all_finite": true,
+   "grad_c_all_nonzero": true,
+   "grad_c_norm": 7.278e-07,
+   "param_grad_norm_median": 7.1e-05,
+   "param_grad_norm_min": 2.02e-06,
+   "param_grad_norm_max": 0.209982,
+   "n_params_with_grad": 52,
+   "grad_c_norm_over_median": 0.010279,
+   "dtau_dc_theory_sigmoid": [
+    0.632121,
+    0.999877,
+    1.0
+   ],
+   "pass": true,
+   "interpretation": "∂τ_k/∂c_j=sigmoid(c_j)·1[j≤k]（D2 推导）；c_j∈{0.54,9,90} 时 sigmoid≈(0.63,0.9999,1.0) 不消失 ⇒ 梯度可达且不消失"
+  },
+  "A5_param_audit": {
+   "statement": "A/B 可学习参数差恰 3 标量",
+   "arm_a_learnable_params": 28472862,
+   "arm_b_learnable_params": 28472865,
+   "learnable_elem_diff_b_minus_a": 3,
+   "names_only_in_b": [
+    "tau_sched.c"
+   ],
+   "names_only_in_a": [],
+   "shapes_only_in_b": {
+    "tau_sched.c": [
+     3
+    ]
+   },
+   "name_sets_identical_except": [
+    "tau_sched.c"
+   ],
+   "pass_exactly_3_scalars": true,
+   "dead_params_tau_tie_both_arms": [
+    "experts.0.cell.cm",
+    "experts.1.cell.cm",
+    "experts.2.cell.cm"
+   ],
+   "dead_params_note": "τ-tie 覆写不走 cm；两臂同样分配同样不用（库 LTCCell 结构保留），不影响 A/B 差集",
+   "buffers_arm_a": [
+    "tau_sched.c"
+   ],
+   "buffers_arm_b": [],
+   "count_params_arm_a": {
+    "total": 35582862,
+    "trainable": 28472862
+   },
+   "count_params_arm_b": {
+    "total": 35582865,
+    "trainable": 28472865
+   },
+   "pass": true
+  },
+  "A4_stability_and_memory": {
+   "statement": "72 步前向有限无 NaN；frozen batch 峰值显存实测（超 8G 按 D9 阶梯降档记录）；B>1 timespans 行为记录",
+   "forward72_b64_finite": true,
+   "forward72_b64_max_abs": 0.072011,
+   "frozen_batch_peak_mib_b64": null,
+   "frozen_batch_peak_source": "results/operator_bench.json#O3_full_mrmoe.b64_seq72",
+   "frozen_batch_budget_mib": 8192.0,
+   "d9_ladder": {
+    "b64": {
+     "peak_mib": null,
+     "within_8g": false,
+     "note": "O2 单专家 B=64 已实测 10082MiB>8192（算子墙）；全模型 B=64 必超预算"
+    },
+    "b32": {
+     "peak_mib": 6863.4,
+     "within_8g": true
+    },
+    "b16": {
+     "peak_mib": 4768.8,
+     "within_8g": true
+    },
+    "single_expert_b64_peak_mib_O2": 10082.1,
+    "selected_rung": "b32"
+   },
+   "frozen_batch_within_8g": true,
+   "frozen_batch_within_8g_note": "B=64 超 8G 预算（D9 阶梯降档）；实测落在预算内的档位=b32：6863.4MiB（⓪ O3）。按 design.md §五 A4，内存超限走 D9 阶梯不算失败。",
+   "backward_finite": true,
+   "backward_finite_evidence": {
+    "A3_grad_finite": true,
+    "O3_b64_backward_finite": null,
+    "note": "A4 反传有限性由 A3 同算子 72 步 fwd+bwd 与 ⓪ O3 B=64 实测共同佐证（避免同配置重复烧 GPU）"
+   },
+   "d9_ladder_needed": false,
+   "d9_ladder_note": "超 8G 才按 D9 阶梯 batch 64→32→16 降档记录；本配置实测见 frozen_batch_peak_mem_mib_b64",
+   "timespans_behavior": {
+    "per_sample_timespans_B4": {
+     "works": false,
+     "error": "RuntimeError: The size of tensor a (32) must match the size of tensor b (4) at non-singleton dimension 0"
+    },
+    "const_vector_timespans_1xL": {
+     "works": true,
+     "note": "(1,L) 常向量 squeeze 后 0 维标量，可广播"
+    },
+    "our_path": "本课题 dt=1h 固定网格：专家 manual-loop 传 elapsed_time=1.0 标量、timespans=None，不触达逐样本 timespans 路径（D4 冻结）"
+   },
+   "pass": true
+  }
+ },
+ "env": {
+  "device": "cuda",
+  "ran_at": "2026-10-28T04:45:59+0800"
+ }
+}

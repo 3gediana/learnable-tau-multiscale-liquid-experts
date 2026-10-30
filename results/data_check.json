@@ -1,0 +1,211 @@
+{
+ "schema": "data-check/v1",
+ "stage": "S2b-data-model",
+ "purpose": "design.md D3 数据二选一实测：主 Moor 2023 harmonized / 退 PhysioNet-CinC 2019；两来源皆败 = F2 停（禁合成替代）",
+ "ran_at": "2026-10-28T07:32:59+08:00",
+ "sources": {
+  "moor_2023": {
+   "paper": "Moor M, Bennett N, Plecko D, Horn M, Rieck B, Meinshausen N, Buhlmann P, Borgwardt K. Predicting sepsis using deep learning across international sites: A retrospective development and validation study. eClinicalMedicine 62:102124, 2023.",
+   "doi": "10.1016/j.eclinm.2023.102124",
+   "data_sharing_statement_source": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10425671/fullTextXML",
+   "data_sharing_statement_verbatim": "All the raw data used in this manuscript is publicly available for accredited researchers. MIMIC-III, eICU, and HiRID are available via Physionet. Data from the AUMC database is available via the website of [Amsterdam UMC] using the “ricu” R-package. All code used for extracting, cleaning, filtering and modelling will be made available immediately upon publication.",
+   "underlying_databases": {
+    "MIMIC-III": "US, PhysioNet, credentialed access (CITI + DUA)",
+    "eICU-CRD": "US, PhysioNet, credentialed access (CITI + DUA)",
+    "HiRID": "CH (Bern), PhysioNet, credentialed access",
+    "AmsterdamUMCdb": "NL, Amsterdam UMC website, credentialed access"
+   },
+   "conclusion": "主源 Moor 2023 harmonized 集在本环境不可获取：四底库均需机构认证凭证（CITI 培训 + DUA），无公开免凭证下载；harmonized 标注集本身亦无公开发布（本单元实测检索 GitHub/Zenodo/figshare/grep.app 无果）。按 D3 决策过程回退 PhysioNet/CinC 2019。",
+   "live_probes": {
+    "github_org_borgwardtlab_repos": {
+     "url": "https://github.com/BorgwardtLab?tab=repositories",
+     "ok": false,
+     "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get issuer certificate (_ssl.c:1006)>",
+     "elapsed_s": 0.45
+    },
+    "github_repo_search": {
+     "url": "https://api.github.com/search/repositories?q=harmonised+sepsis+international+sites&per_page=5",
+     "ok": false,
+     "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get issuer certificate (_ssl.c:1006)>",
+     "elapsed_s": 0.4
+    },
+    "zenodo_search": {
+     "url": "https://zenodo.org/api/records?q=harmonised%20sepsis%20international&size=5",
+     "ok": true,
+     "finding": "hits=5, titles=['Legal Harmonization Standard: Aligning GGPA Policies with Gh', 'Biological markers of sepsis', 'SEPSIS: PATHOGENESIS, CLINICAL FEATURES, AND PREVENTION STRA', 'Management of Septic Shock According to SSC 2016 in Post Lap', 'Advancing international cooperation for the decarbonisation ']",
+     "elapsed_s": 2.03
+    },
+    "europepmc_fulltext_datasharing": {
+     "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10425671/fullTextXML",
+     "ok": true,
+     "finding": "Data sharing statement present: True",
+     "elapsed_s": 1.88
+    }
+   },
+   "status": "failed_credentialed",
+   "obtainable_here": false
+  },
+  "physionet_cinc_2019": {
+   "project": "Early Prediction of Sepsis from Clinical Data: The PhysioNet/Computing in Cardiology Challenge 2019 v1.0.0",
+   "base_url": "https://physionet.org/files/challenge-2019/1.0.0",
+   "license": "Open Data Commons / PhysioNet Credentialed Health Data License（公开免凭证训练集）",
+   "inventory_exact": {
+    "training_setA": 20336,
+    "training_setB": 20000
+   },
+   "inventory_total": 40336,
+   "throttle_note": "本机代理到 physionet.org 实测约 6 文件/s（16/32 线程同），全量下载约 108min 超单元窗口 → 默认固定种子随机样本，--full 可续跑",
+   "download": {
+    "training_setA": {
+     "files_requested": 0,
+     "bytes": 0,
+     "seconds": 0.0,
+     "fails": []
+    },
+    "training_setB": {
+     "files_requested": 0,
+     "bytes": 0,
+     "seconds": 0.0,
+     "fails": []
+    }
+   },
+   "downloaded_bytes_total": 0,
+   "download_fails_total": 0,
+   "stats": {
+    "sample_admissions": 3024,
+    "sample_hours_total": 115837,
+    "sample_hours_positive": 2009,
+    "length_distribution_hours": {
+     "min": 8,
+     "p05": 14,
+     "p25": 24,
+     "p50": 38,
+     "p75": 47,
+     "p95": 58,
+     "p99": 138,
+     "max": 328,
+     "mean": 38.31
+    },
+    "label_rate_hour_level": {
+     "rate": 0.017343,
+     "wilson95": [
+      0.016607,
+      0.018111
+     ],
+     "note": "正标签小时数 / 总小时数（样本）"
+    },
+    "label_rate_admission_level": {
+     "rate": 0.070106,
+     "wilson95": [
+      0.06154,
+      0.079762
+     ],
+     "note": "至少 1 个正标签小时的入院数 / 总入院数（样本；Che 2018/PhysioNet 2019 口径）"
+    },
+    "per_set": {
+     "training_setA": {
+      "files_downloaded": 1500,
+      "admissions_parsed": 1500,
+      "hours_total": 58092,
+      "hours_positive": 1249,
+      "length_pctiles": {
+       "5": 15,
+       "25": 25,
+       "50": 38,
+       "75": 47,
+       "95": 57,
+       "99": 141
+      },
+      "length_min": 8,
+      "length_max": 328,
+      "length_mean": 38.73,
+      "admissions_with_any_positive": 130,
+      "hour_positive_rate": 0.0215,
+      "admission_positive_rate": 0.086667
+     },
+     "training_setB": {
+      "files_downloaded": 1524,
+      "admissions_parsed": 1524,
+      "hours_total": 57745,
+      "hours_positive": 760,
+      "length_pctiles": {
+       "5": 14,
+       "25": 23,
+       "50": 39,
+       "75": 47,
+       "95": 58,
+       "99": 132
+      },
+      "length_min": 8,
+      "length_max": 312,
+      "length_mean": 37.89,
+      "admissions_with_any_positive": 82,
+      "hour_positive_rate": 0.013161,
+      "admission_positive_rate": 0.053806
+     }
+    }
+   },
+   "protocol_compat": {
+    "checked": true,
+    "sample_file": "training_setA/p000002.psv",
+    "n_columns_expected_physionet2019": 41,
+    "n_columns_observed": 41,
+    "n_time_varying": 34,
+    "n_static_meta": 7,
+    "columns": [
+     "HR",
+     "O2Sat",
+     "Temp",
+     "SBP",
+     "MAP",
+     "DBP",
+     "Resp",
+     "EtCO2",
+     "BaseExcess",
+     "HCO3",
+     "FiO2",
+     "pH",
+     "PaCO2",
+     "SaO2",
+     "AST",
+     "BUN",
+     "Alkalinephos",
+     "Calcium",
+     "Chloride",
+     "Creatinine",
+     "Bilirubin_direct",
+     "Glucose",
+     "Lactate",
+     "Magnesium",
+     "Phosphate",
+     "Potassium",
+     "Bilirubin_total",
+     "TroponinI",
+     "Hct",
+     "Hgb",
+     "PTT",
+     "WBC",
+     "Fibrinogen",
+     "Platelets",
+     "Age",
+     "Gender",
+     "Unit1",
+     "Unit2",
+     "HospAdmTime",
+     "ICULOS",
+     "SepsisLabel"
+    ],
+    "hourly_grid": "ICULOS 为小时序号（1,2,3...），dt=1h 与 D3 冻结一致",
+    "label_semantics": "SepsisLabel：该小时起未来 6h 内 Sepsis-3 onset=1（PhysioNet 2019 标准），与 D3「y(t)=1[onset∈(t,t+6h]]」一致",
+    "che2018_split": "Che et al. 2018 患者级随机 80/10/10 划分可在合并 setA+setB 上复现（D3）",
+    "dt_hours": 1,
+    "truncation_d3_hours": 72
+   }
+  }
+ },
+ "decision": {
+  "selected": "physionet_cinc_2019",
+  "basis": "主源 Moor 2023 需认证访问不可获取（见 moor_2023.conclusion）；回退源 PhysioNet/CinC 2019 公开可下载、协议与 Che 2018/Sepsis-3 兼容（实测）"
+ },
+ "download_mode": "random_sample_seed20261028_n3000"
+}

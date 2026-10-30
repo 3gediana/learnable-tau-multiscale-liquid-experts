@@ -1,0 +1,807 @@
+{
+ "schema": "pilot-timing/v2",
+ "stage": "S3-pilot-continue-a + S3-pilot-continue-b + S3-compile-probe + S3-pilot-continue-c + S3-pilot-continue-d",
+ "purpose": "⓿⓶⓷ 实测计时与档位（pc-side 解冻令 30min 单格 smoke 口径）",
+ "unit_window": {
+  "started_at": "2026-10-29T01:06:44+08:00",
+  "hard_cap_sec": 1800,
+  "hard_cap_at": "2026-10-29T01:36:44+08:00",
+  "source": "2026-10-28T22:01:52 pc-side halt 解冻令 unit_cap_minutes=30；撞顶只 detach 不 kill"
+ },
+ "tier_config": {
+  "hidden": 256,
+  "batch": 64,
+  "ode_unfolds": 6,
+  "subsample": 2000,
+  "epochs": 6,
+  "lr": 0.001,
+  "optimizer": "Adam",
+  "loss": "BCEWithLogits",
+  "grad_clip": "无（F3 梯度监控阈值 1e3）",
+  "data": "data/processed/physionet2019_sample.npz（train 2000 子采样 seed 20261029/val 302 全量；PhysioNet 2019 回退源）",
+  "basis": "D14 应急档；实测基准 results/emergency_tier_probe.json emerg_h256_b64: epoch(2000)=137.4s, E6=824.4s, peak=1344.6MiB",
+  "scale_deviation_accounting": "可训练参数 28.5M→1.04M（D14；H1a/H1b 结论范围限定 hidden256+2000 条+B64，S6 终判须标注）"
+ },
+ "step0_probe_hidden256": {
+  "script": "experiments/ltc_tau_probe.py --hidden 256 --out results/ltc_tau_probe_h256.json",
+  "assertions_pass": {
+   "A1_dynamic_separability": true,
+   "A2_init_equivalence": true,
+   "A3_grad_reaches_tau": true,
+   "A4_stability_and_memory": true,
+   "A5_param_audit": true
+  },
+  "all_pass": true,
+  "per_assertion_sec": {
+   "A1": 2.7,
+   "A2": 1.3,
+   "A3": 3.5,
+   "A4": 4.1,
+   "A5": 0.0
+  },
+  "total_sec": 11.6,
+  "A4_peak_mib_b64_fresh": 1378.0,
+  "A4_fwd_bwd_sec": 3.514,
+  "A4_emergency_crossref": {
+   "peak_mem_mib": 1344.6,
+   "batch_sec_median": 4.433,
+   "source": "results/emergency_tier_probe.json emerg_h256_b64"
+  },
+  "note": "A4 峰值显存为本单元现场实测（reset_peak 协议），与 D14 应急档探针 1344.6MiB 交叉一致（偏差 <3%）"
+ },
+ "step2_compile_probe": {
+  "status": "executed_by_S3-compile-probe_unit",
+  "executed_at": "2026-10-29T06:57:17.968593",
+  "result": "results/compile_probe.json",
+  "verdict": "supported",
+  "note": "本块为 S3-pilot smoke 段当时的弃用记录（时间预算保护必选项）；compile×use_reentrant=False 组合由 S3-compile-probe 独立单元实测，判据与结论以 results/compile_probe.json 为准"
+ },
+ "step3_train_A_s0": {
+  "A_s0": {
+   "status": "completed",
+   "wall_sec": 737.5,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    122.65,
+    121.88,
+    120.74,
+    121.77,
+    122.7,
+    123.69
+   ],
+   "batch_sec_median": 3.74,
+   "n_batches_per_epoch": 32,
+   "peak_mem_mib_overall": 1148.3,
+   "per_epoch_estimate_sec_E6_extrapolated": 733.4,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253790,
+     "trainable": 1004958
+    },
+    "torch": "2.10.0+cu128"
+   }
+  }
+ },
+ "reference_emergency_tier_probe_emerg_h256_b64": {
+  "batch_sec_median": 4.433,
+  "epoch_estimate_sec_n2000": 137.4,
+  "pilot_train_estimate_sec_E6": 824.4,
+  "peak_mem_mib": 1344.6
+ },
+ "measured_at": "2026-10-31T01:13:59.567005",
+ "stages": [
+  "S3-pilot-continue-a",
+  "S3-pilot-continue-b",
+  "S3-compile-probe",
+  "S3-pilot-continue-c",
+  "S3-pilot-continue-d"
+ ],
+ "train_runs_all": {
+  "A_s0": {
+   "arm": "A",
+   "seed": 0,
+   "status": "completed",
+   "wall_sec": 737.5,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    122.65,
+    121.88,
+    120.74,
+    121.77,
+    122.7,
+    123.69
+   ],
+   "batch_sec_median": 3.74,
+   "n_batches_per_epoch": 32,
+   "peak_mem_mib_overall": 1148.3,
+   "per_epoch_estimate_sec_E6_extrapolated": 733.4,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T01:29:28.841270",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253790,
+     "trainable": 1004958
+    },
+    "torch": "2.10.0+cu128"
+   },
+   "stage": "S3-pilot (D15 单格 smoke)"
+  },
+  "A_s1": {
+   "arm": "A",
+   "seed": 1,
+   "status": "completed",
+   "wall_sec": 1345.7,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    226.24,
+    226.31,
+    217.33,
+    224.38,
+    216.74,
+    217.67
+   ],
+   "batch_sec_median": 6.688,
+   "n_batches_per_epoch": 32,
+   "peak_mem_mib_overall": 1148.3,
+   "per_epoch_estimate_sec_E6_extrapolated": 1328.7,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T02:48:58.313758",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253790,
+     "trainable": 1004958
+    },
+    "torch": "2.10.0+cu128"
+   },
+   "stage": "S3-pilot-continue-a"
+  },
+  "B_s0": {
+   "arm": "B",
+   "seed": 0,
+   "status": "completed",
+   "wall_sec": 1496.2,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    245.85,
+    255.91,
+    243.37,
+    250.05,
+    246.14,
+    244.63
+   ],
+   "batch_sec_median": 7.529,
+   "n_batches_per_epoch": 32,
+   "peak_mem_mib_overall": 1148.4,
+   "per_epoch_estimate_sec_E6_extrapolated": 1486.0,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T04:21:22.835528",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253793,
+     "trainable": 1004961
+    },
+    "torch": "2.10.0+cu128"
+   },
+   "stage": "S3-pilot-continue-a"
+  },
+  "A_s2": {
+   "arm": "A",
+   "seed": 2,
+   "status": "completed",
+   "wall_sec": 408.9,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    216.86,
+    231.17,
+    229.26,
+    133.91,
+    134.79,
+    135.54
+   ],
+   "batch_sec_median": 4.108,
+   "n_batches_per_epoch": 16,
+   "peak_mem_mib_overall": 1153.2,
+   "per_epoch_estimate_sec_E6_extrapolated": 808.5,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T04:31:45.254681",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253790,
+     "trainable": 1004958
+    },
+    "torch": "2.10.0+cu128"
+   },
+   "stage": "S3-pilot-continue-a"
+  },
+  "B_s1": {
+   "arm": "B",
+   "seed": 1,
+   "status": "completed",
+   "wall_sec": 840.2,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    142.96,
+    139.61,
+    138.38,
+    137.8,
+    138.5,
+    137.6
+   ],
+   "batch_sec_median": 4.243,
+   "n_batches_per_epoch": 32,
+   "peak_mem_mib_overall": 1148.4,
+   "per_epoch_estimate_sec_E6_extrapolated": 834.9,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T05:19:06.650705",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253793,
+     "trainable": 1004961
+    },
+    "torch": "2.10.0+cu128"
+   },
+   "stage": "S3-pilot-continue-b"
+  },
+  "B_s2": {
+   "arm": "B",
+   "seed": 2,
+   "status": "completed",
+   "wall_sec": 881.4,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    152.03,
+    147.51,
+    138.98,
+    137.69,
+    150.44,
+    144.43
+   ],
+   "batch_sec_median": 4.278,
+   "n_batches_per_epoch": 32,
+   "peak_mem_mib_overall": 1148.4,
+   "per_epoch_estimate_sec_E6_extrapolated": 871.1,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T06:54:18.300659",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253793,
+     "trainable": 1004961
+    },
+    "torch": "2.10.0+cu128"
+   },
+   "stage": "S3-pilot-continue-c"
+  },
+  "LNN_s0": {
+   "arm": "LNN",
+   "seed": 0,
+   "status": "completed",
+   "wall_sec": 178.6,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    31.2,
+    28.95,
+    29.19,
+    29.02,
+    28.98,
+    29.23
+   ],
+   "batch_sec_median": 0.885,
+   "n_batches_per_epoch": 32,
+   "peak_mem_mib_overall": 370.1,
+   "per_epoch_estimate_sec_E6_extrapolated": 176.6,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-31T01:13:07.631874",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 416393,
+     "trainable": 333449
+    },
+    "torch": "2.10.0+cu128"
+   },
+   "stage": "S3-pilot-continue-d"
+  }
+ },
+ "continue_a": {
+  "stage": "S3-pilot-continue-a",
+  "runs": {
+   "A_s1": {
+    "arm": "A",
+    "seed": 1,
+    "status": "completed",
+    "wall_sec": 1345.7,
+    "n_epochs_done": 6,
+    "epoch_sec": [
+     226.24,
+     226.31,
+     217.33,
+     224.38,
+     216.74,
+     217.67
+    ],
+    "batch_sec_median": 6.688,
+    "n_batches_per_epoch": 32,
+    "peak_mem_mib_overall": 1148.3,
+    "per_epoch_estimate_sec_E6_extrapolated": 1328.7,
+    "f3": {
+     "triggered": false,
+     "reason": null
+    },
+    "finished_at": "2026-10-29T02:48:58.313758",
+    "config": {
+     "hidden": 256,
+     "batch": 64,
+     "ode_unfolds": 6,
+     "epochs": 6,
+     "lr": 0.001,
+     "subsample": 2000,
+     "data": "data\\processed\\physionet2019_sample.npz",
+     "data_seed": 20261029,
+     "seq_len": 72,
+     "n_feat": 68,
+     "device": "cuda",
+     "params": {
+      "total": 1253790,
+      "trainable": 1004958
+     },
+     "torch": "2.10.0+cu128"
+    },
+    "stage": "S3-pilot-continue-a"
+   },
+   "B_s0": {
+    "arm": "B",
+    "seed": 0,
+    "status": "completed",
+    "wall_sec": 1496.2,
+    "n_epochs_done": 6,
+    "epoch_sec": [
+     245.85,
+     255.91,
+     243.37,
+     250.05,
+     246.14,
+     244.63
+    ],
+    "batch_sec_median": 7.529,
+    "n_batches_per_epoch": 32,
+    "peak_mem_mib_overall": 1148.4,
+    "per_epoch_estimate_sec_E6_extrapolated": 1486.0,
+    "f3": {
+     "triggered": false,
+     "reason": null
+    },
+    "finished_at": "2026-10-29T04:21:22.835528",
+    "config": {
+     "hidden": 256,
+     "batch": 64,
+     "ode_unfolds": 6,
+     "epochs": 6,
+     "lr": 0.001,
+     "subsample": 2000,
+     "data": "data\\processed\\physionet2019_sample.npz",
+     "data_seed": 20261029,
+     "seq_len": 72,
+     "n_feat": 68,
+     "device": "cuda",
+     "params": {
+      "total": 1253793,
+      "trainable": 1004961
+     },
+     "torch": "2.10.0+cu128"
+    },
+    "stage": "S3-pilot-continue-a"
+   },
+   "A_s2": {
+    "arm": "A",
+    "seed": 2,
+    "status": "completed",
+    "wall_sec": 408.9,
+    "n_epochs_done": 6,
+    "epoch_sec": [
+     216.86,
+     231.17,
+     229.26,
+     133.91,
+     134.79,
+     135.54
+    ],
+    "batch_sec_median": 4.108,
+    "n_batches_per_epoch": 16,
+    "peak_mem_mib_overall": 1153.2,
+    "per_epoch_estimate_sec_E6_extrapolated": 808.5,
+    "f3": {
+     "triggered": false,
+     "reason": null
+    },
+    "finished_at": "2026-10-29T04:31:45.254681",
+    "config": {
+     "hidden": 256,
+     "batch": 64,
+     "ode_unfolds": 6,
+     "epochs": 6,
+     "lr": 0.001,
+     "subsample": 2000,
+     "data": "data\\processed\\physionet2019_sample.npz",
+     "data_seed": 20261029,
+     "seq_len": 72,
+     "n_feat": 68,
+     "device": "cuda",
+     "params": {
+      "total": 1253790,
+      "trainable": 1004958
+     },
+     "torch": "2.10.0+cu128"
+    },
+    "stage": "S3-pilot-continue-a"
+   }
+  },
+  "aggregate": {
+   "n_runs": 3,
+   "run_keys": [
+    "A_s1",
+    "A_s2",
+    "B_s0"
+   ],
+   "statuses": {
+    "A_s1": "completed",
+    "B_s0": "completed",
+    "A_s2": "completed"
+   },
+   "all_completed": true,
+   "total_wall_sec": 3250.8,
+   "mean_epoch_sec": 216.45,
+   "mean_batch_sec_median": 6.108,
+   "max_peak_mem_mib_overall": 1153.2,
+   "f3_any_triggered": false,
+   "window": {
+    "started_at": "2026-10-29T02:26:27+08:00",
+    "done_at": null,
+    "source": "experiments\\_continue_a_runner.log"
+   }
+  }
+ },
+ "continue_b": {
+  "stage": "S3-pilot-continue-b",
+  "runs": {
+   "B_s1": {
+    "arm": "B",
+    "seed": 1,
+    "status": "completed",
+    "wall_sec": 840.2,
+    "n_epochs_done": 6,
+    "epoch_sec": [
+     142.96,
+     139.61,
+     138.38,
+     137.8,
+     138.5,
+     137.6
+    ],
+    "batch_sec_median": 4.243,
+    "n_batches_per_epoch": 32,
+    "peak_mem_mib_overall": 1148.4,
+    "per_epoch_estimate_sec_E6_extrapolated": 834.9,
+    "f3": {
+     "triggered": false,
+     "reason": null
+    },
+    "finished_at": "2026-10-29T05:19:06.650705",
+    "config": {
+     "hidden": 256,
+     "batch": 64,
+     "ode_unfolds": 6,
+     "epochs": 6,
+     "lr": 0.001,
+     "subsample": 2000,
+     "data": "data\\processed\\physionet2019_sample.npz",
+     "data_seed": 20261029,
+     "seq_len": 72,
+     "n_feat": 68,
+     "device": "cuda",
+     "params": {
+      "total": 1253793,
+      "trainable": 1004961
+     },
+     "torch": "2.10.0+cu128"
+    },
+    "stage": "S3-pilot-continue-b"
+   }
+  },
+  "aggregate": {
+   "n_runs": 1,
+   "run_keys": [
+    "B_s1"
+   ],
+   "statuses": {
+    "B_s1": "completed"
+   },
+   "all_completed": true,
+   "total_wall_sec": 840.2,
+   "mean_epoch_sec": 139.14,
+   "mean_batch_sec_median": 4.243,
+   "max_peak_mem_mib_overall": 1148.4,
+   "f3_any_triggered": false,
+   "window": {
+    "started_at": "2026-10-29T05:05:06+08:00",
+    "done_at": "2026-10-29T05:19:07+08:00",
+    "source": "experiments\\_continue_b_runner.log"
+   }
+  }
+ },
+ "compile_probe": {
+  "stage": "S3-compile-probe",
+  "status": "passed",
+  "verdict": "supported",
+  "reason": null,
+  "criteria_eval": {
+   "compile_pass": true,
+   "numerical_consistent": true,
+   "speedup_pass": true
+  },
+  "eager_batch_sec_median": 4.1638,
+  "compiled_batch_sec_median": 0.7951,
+  "speedup_vs_eager_median": 5.237,
+  "max_abs_diff_overall": 9.313225746154785e-08,
+  "compile_sec_cold": 1212.86,
+  "peak_mem_mib_eager": 1185.7,
+  "peak_mem_mib_compiled": 1404.5,
+  "reference_baselines": {
+   "emergency_tier_probe_emerg_h256_b64_batch_sec": 4.433,
+   "smoke_A_s0_batch_sec_median": 3.74,
+   "note": "eager 同协议中位 4.164s（本单元现场实测）；加速比对本单元 eager 中位数，参考基准仅作量级对账"
+  },
+  "source": "results/compile_probe.json",
+  "window": {
+   "started_at": "2026-10-29T05:47:18.356501",
+   "done_at": "2026-10-29T06:57:17.968593"
+  }
+ },
+ "continue_c": {
+  "stage": "S3-pilot-continue-c",
+  "runs": {
+   "B_s2": {
+    "arm": "B",
+    "seed": 2,
+    "status": "completed",
+    "wall_sec": 881.4,
+    "n_epochs_done": 6,
+    "epoch_sec": [
+     152.03,
+     147.51,
+     138.98,
+     137.69,
+     150.44,
+     144.43
+    ],
+    "batch_sec_median": 4.278,
+    "n_batches_per_epoch": 32,
+    "peak_mem_mib_overall": 1148.4,
+    "per_epoch_estimate_sec_E6_extrapolated": 871.1,
+    "f3": {
+     "triggered": false,
+     "reason": null
+    },
+    "finished_at": "2026-10-29T06:54:18.300659",
+    "config": {
+     "hidden": 256,
+     "batch": 64,
+     "ode_unfolds": 6,
+     "epochs": 6,
+     "lr": 0.001,
+     "subsample": 2000,
+     "data": "data\\processed\\physionet2019_sample.npz",
+     "data_seed": 20261029,
+     "seq_len": 72,
+     "n_feat": 68,
+     "device": "cuda",
+     "params": {
+      "total": 1253793,
+      "trainable": 1004961
+     },
+     "torch": "2.10.0+cu128"
+    },
+    "stage": "S3-pilot-continue-c"
+   }
+  },
+  "aggregate": {
+   "n_runs": 1,
+   "run_keys": [
+    "B_s2"
+   ],
+   "statuses": {
+    "B_s2": "completed"
+   },
+   "all_completed": true,
+   "total_wall_sec": 881.4,
+   "mean_epoch_sec": 145.18,
+   "mean_batch_sec_median": 4.278,
+   "max_peak_mem_mib_overall": 1148.4,
+   "f3_any_triggered": false,
+   "window": {
+    "started_at": "2026-10-29T06:39:32+08:00",
+    "done_at": "2026-10-29T06:54:19+08:00",
+    "source": "experiments\\_continue_c_runner.log"
+   }
+  }
+ },
+ "continue_d": {
+  "stage": "S3-pilot-continue-d",
+  "runs": {
+   "LNN_s0": {
+    "arm": "LNN",
+    "seed": 0,
+    "status": "completed",
+    "wall_sec": 178.6,
+    "n_epochs_done": 6,
+    "epoch_sec": [
+     31.2,
+     28.95,
+     29.19,
+     29.02,
+     28.98,
+     29.23
+    ],
+    "batch_sec_median": 0.885,
+    "n_batches_per_epoch": 32,
+    "peak_mem_mib_overall": 370.1,
+    "per_epoch_estimate_sec_E6_extrapolated": 176.6,
+    "f3": {
+     "triggered": false,
+     "reason": null
+    },
+    "finished_at": "2026-10-31T01:13:07.631874",
+    "config": {
+     "hidden": 256,
+     "batch": 64,
+     "ode_unfolds": 6,
+     "epochs": 6,
+     "lr": 0.001,
+     "subsample": 2000,
+     "data": "data\\processed\\physionet2019_sample.npz",
+     "data_seed": 20261029,
+     "seq_len": 72,
+     "n_feat": 68,
+     "device": "cuda",
+     "params": {
+      "total": 416393,
+      "trainable": 333449
+     },
+     "torch": "2.10.0+cu128"
+    },
+    "stage": "S3-pilot-continue-d"
+   }
+  },
+  "aggregate": {
+   "n_runs": 1,
+   "run_keys": [
+    "LNN_s0"
+   ],
+   "statuses": {
+    "LNN_s0": "completed"
+   },
+   "all_completed": true,
+   "total_wall_sec": 178.6,
+   "mean_epoch_sec": 29.43,
+   "mean_batch_sec_median": 0.885,
+   "max_peak_mem_mib_overall": 370.1,
+   "f3_any_triggered": false,
+   "window": {
+    "started_at": "2026-10-31T01:10:07+08:00",
+    "done_at": "2026-10-31T01:13:08+08:00",
+    "source": "experiments\\_pilot_lnn_s0.log"
+   }
+  }
+ }
+}

@@ -1,0 +1,188 @@
+{
+ "schema": "emergency-tier-probe/v1",
+ "stage": "S3-path-decision (D14, researcher judgment unit 2026-10-28)",
+ "purpose": "hidden 应急档（512/256）× batch 档位实测：显存/计时/梯度，作为 D14 拍板依据",
+ "protocol": "同 operator_bench._bench_case：reset_peak→72步fwd+bwd→max_memory_allocated/中位计时；臂B全模型（3专家+门控+读出）",
+ "cases": [
+  {
+   "tag": "anchor_h1500_b32",
+   "hidden": 1500,
+   "batch": 32,
+   "seq_len": 72,
+   "params": {
+    "total": 35582865,
+    "trainable": 28472865
+   },
+   "forward_finite": true,
+   "first_batch_fwd_bwd_sec": 90.356,
+   "peak_mem_mib": 6863.2,
+   "grad_global_norm": 0.020114,
+   "grad_nonfinite_param_count": 0,
+   "grad_c_norm": 4.619e-07,
+   "batch_sec_median": 87.574,
+   "batch_sec_all": [
+    87.574
+   ],
+   "per_step_ms": 1216.31,
+   "epoch_estimate_sec": {
+    "n8000": 21893.6,
+    "n4000": 10946.8,
+    "n2000": 5429.6
+   },
+   "pilot_train_estimate_sec_E6": 32577.6,
+   "full_train_estimate_sec_E20": 108592.0,
+   "case_wall_sec": 197.6
+  },
+  {
+   "tag": "emerg_h512_b32",
+   "hidden": 512,
+   "batch": 32,
+   "seq_len": 72,
+   "params": {
+    "total": 4561641,
+    "trainable": 3652329
+   },
+   "forward_finite": true,
+   "first_batch_fwd_bwd_sec": 8.88,
+   "peak_mem_mib": 1585.8,
+   "grad_global_norm": 0.088645,
+   "grad_nonfinite_param_count": 0,
+   "grad_c_norm": 7.804e-07,
+   "batch_sec_median": 8.458,
+   "batch_sec_all": [
+    8.458
+   ],
+   "per_step_ms": 117.47,
+   "epoch_estimate_sec": {
+    "n8000": 2114.5,
+    "n4000": 1057.3,
+    "n2000": 524.4
+   },
+   "pilot_train_estimate_sec_E6": 3146.4,
+   "full_train_estimate_sec_E20": 10488.0,
+   "case_wall_sec": 20.0
+  },
+  {
+   "tag": "emerg_h512_b64",
+   "hidden": 512,
+   "batch": 64,
+   "seq_len": 72,
+   "params": {
+    "total": 4561641,
+    "trainable": 3652329
+   },
+   "forward_finite": true,
+   "first_batch_fwd_bwd_sec": 16.783,
+   "peak_mem_mib": 2867.5,
+   "grad_global_norm": 0.086375,
+   "grad_nonfinite_param_count": 0,
+   "grad_c_norm": 6.553e-07,
+   "batch_sec_median": 16.661,
+   "batch_sec_all": [
+    16.661
+   ],
+   "per_step_ms": 231.41,
+   "epoch_estimate_sec": {
+    "n8000": 2082.7,
+    "n4000": 1033.0,
+    "n2000": 516.5
+   },
+   "pilot_train_estimate_sec_E6": 3099.0,
+   "full_train_estimate_sec_E20": 10330.0,
+   "case_wall_sec": 33.6
+  },
+  {
+   "tag": "emerg_h256_b32",
+   "hidden": 256,
+   "batch": 32,
+   "seq_len": 72,
+   "params": {
+    "total": 1300713,
+    "trainable": 1042665
+   },
+   "forward_finite": true,
+   "first_batch_fwd_bwd_sec": 3.754,
+   "peak_mem_mib": 701.9,
+   "grad_global_norm": 0.023628,
+   "grad_nonfinite_param_count": 0,
+   "grad_c_norm": 1.5293e-06,
+   "batch_sec_median": 3.962,
+   "batch_sec_all": [
+    3.857,
+    3.962,
+    4.001
+   ],
+   "per_step_ms": 55.03,
+   "epoch_estimate_sec": {
+    "n8000": 990.6,
+    "n4000": 495.3,
+    "n2000": 245.7
+   },
+   "pilot_train_estimate_sec_E6": 1474.2,
+   "full_train_estimate_sec_E20": 4914.0,
+   "case_wall_sec": 16.5
+  },
+  {
+   "tag": "emerg_h256_b64",
+   "hidden": 256,
+   "batch": 64,
+   "seq_len": 72,
+   "params": {
+    "total": 1300713,
+    "trainable": 1042665
+   },
+   "forward_finite": true,
+   "first_batch_fwd_bwd_sec": 4.438,
+   "peak_mem_mib": 1344.6,
+   "grad_global_norm": 0.025547,
+   "grad_nonfinite_param_count": 0,
+   "grad_c_norm": 6.058e-07,
+   "batch_sec_median": 4.433,
+   "batch_sec_all": [
+    4.398,
+    4.433,
+    4.508
+   ],
+   "per_step_ms": 61.57,
+   "epoch_estimate_sec": {
+    "n8000": 554.1,
+    "n4000": 274.8,
+    "n2000": 137.4
+   },
+   "pilot_train_estimate_sec_E6": 824.4,
+   "full_train_estimate_sec_E20": 2748.0,
+   "case_wall_sec": 17.9
+  },
+  {
+   "tag": "emerg_h256_b128",
+   "hidden": 256,
+   "batch": 128,
+   "seq_len": 72,
+   "params": {
+    "total": 1300713,
+    "trainable": 1042665
+   },
+   "forward_finite": true,
+   "first_batch_fwd_bwd_sec": 8.928,
+   "peak_mem_mib": 2524.2,
+   "grad_global_norm": 0.071102,
+   "grad_nonfinite_param_count": 0,
+   "grad_c_norm": 2.051e-07,
+   "batch_sec_median": 16.845,
+   "batch_sec_all": [
+    9.57,
+    16.845,
+    17.999
+   ],
+   "per_step_ms": 233.95,
+   "epoch_estimate_sec": {
+    "n8000": 1044.4,
+    "n4000": 522.2,
+    "n2000": 269.5
+   },
+   "pilot_train_estimate_sec_E6": 1617.0,
+   "full_train_estimate_sec_E20": 5390.0,
+   "case_wall_sec": 53.5
+  }
+ ]
+}

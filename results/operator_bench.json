@@ -1,0 +1,332 @@
+{
+ "schema": "operator-bench/v1",
+ "stage": "S2-gate-checks",
+ "purpose": "LTC τ-tie 算子数值稳定性与效率基准（fb-ab50d0ec9f/D12，⓪先于①）",
+ "config": {
+  "hidden": 1500,
+  "ode_unfolds": 6,
+  "batch": 64,
+  "seq_len": 72,
+  "input_size_placeholder": 80,
+  "taus": [
+   1.0,
+   10.0,
+   100.0
+  ],
+  "device": "cuda"
+ },
+ "fixes": {
+  "R1": "softplus(gleak) 提到 unfold 循环外（库每次 unfold 重算；恒等变换）",
+  "R2": "sparsity_mask 折进 w_param 每步一次（FullyConnected 下 mask 全 1，精确恒等）",
+  "R3": "每次 unfold 梯度检查点（use_reentrant=False）：反传图从 >20GB 压到 O(小)，反向按 unfold 重算，数学不变",
+  "R4": "FullyConnected wiring 构建缓存（18.6s/个→0；erev 为 adjacency 拷贝，数值逐位不变）",
+  "R5": "专家序列级梯度检查点（MRMoE.forward）：三专家反传图不再共存，全模型峰值≈单专家（B=32=6863MiB<8G；D9 阶梯 64→32 落预算内）"
+ },
+ "sections": {
+  "O0_env_anchor": {
+   "python": "3.11.9",
+   "torch": "2.10.0+cu128",
+   "cuda": true,
+   "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU",
+   "gpu_total_mib": 8123.4,
+   "ncps": "0.0.2",
+   "device": "cuda",
+   "wiring_build_sec_uncached": [
+    18.4,
+    1.0
+   ],
+   "elementwise_bandwidth_GBs": 162.6,
+   "source_evidence": {
+    "ltc_cell.py:223-225": "cm_t = make_positive_fn(params['cm']) / (elapsed_time / ode_unfolds)  # τ-tie 唯一覆写点",
+    "ltc_cell.py:242": "gleak = make_positive_fn(params['gleak'])  # 库在每次 unfold 内重算（R1 靶点）",
+    "ltc_cell.py:234": "w_activation = w_activation * params['sparsity_mask']  # 库在每次 unfold 内乘 (B,H,H)（R2 靶点）",
+    "ltc_cell.py:247": "v_pre = numerator / (denominator + epsilon)  # 隐式(后向欧拉)求解，eps=1e-8",
+    "ltc_cell.py:53-54": "make_positive_fn = Softplus() if implicit_param_constraints else Identity()",
+    "wirings.py:47-48": "erev_initializer 返回 adjacency_matrix 拷贝（无 RNG 消耗 → R4 缓存安全）"
+   },
+   "ltc_cell_file": "G:\\ai\\python11\\Lib\\site-packages\\ncps\\torch\\ltc_cell.py"
+  },
+  "O1_before_raw": {
+   "b16_single_step": {
+    "tag": "raw_tie_b16_1step",
+    "batch": 16,
+    "seq_len": 1,
+    "params": {
+     "total": 11859161,
+     "trainable": 9489161
+    },
+    "forward_finite": true,
+    "forward_max_abs": 0.063594,
+    "loss": 0.694378,
+    "grad_global_norm": 0.1431623167173065,
+    "grad_nonfinite_param_count": 0,
+    "grad_module_norms": {
+     "expert": 0.014468,
+     "head": 0.155255
+    },
+    "grad_c": null,
+    "backward_finite": true,
+    "batch_fwd_bwd_sec": 0.754,
+    "peak_mem_mib": 2871.4
+   },
+   "b16_seq72_bptt": {
+    "tag": "raw_tie_b16_seq72",
+    "works": false,
+    "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 138.00 MiB. GPU 0 has a total capacity of 7.93 GiB of which 0 bytes is free. Of the allocated memory 22.19 GiB is allocated by PyTorch, and 112.72 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)",
+    "verdict": "τ-tie 裸形态在该配置超出 8G 显存（算子墙，R3 修复靶点）"
+   },
+   "b4_seq72_bptt": {
+    "tag": "raw_tie_b4_seq72",
+    "works": false,
+    "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 36.00 MiB. GPU 0 has a total capacity of 7.93 GiB of which 0 bytes is free. Of the allocated memory 22.40 GiB is allocated by PyTorch, and 24.68 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)",
+    "verdict": "τ-tie 裸形态在该配置超出 8G 显存（算子墙，R3 修复靶点）"
+   },
+   "b64_single_step": {
+    "tag": "raw_tie_b64_1step",
+    "works": true,
+    "peak_mem_mib": 22933.3,
+    "note": "未 OOM（记录实测峰值）"
+   }
+  },
+  "O4_stability": {
+   "gradnorm_seq12_b16": {
+    "seq_len": 12,
+    "grad_global_norm": 0.01797262267814611,
+    "grad_module_norms": {
+     "cell": 0.025667
+    },
+    "forward_finite": true,
+    "out_max_abs": 0.4357
+   },
+   "gradnorm_seq24_b16": {
+    "seq_len": 24,
+    "grad_global_norm": 0.01807081348713823,
+    "grad_module_norms": {
+     "cell": 0.025716
+    },
+    "forward_finite": true,
+    "out_max_abs": 0.436501
+   },
+   "gradnorm_seq48_b16": {
+    "seq_len": 48,
+    "grad_global_norm": 0.018164407314533604,
+    "grad_module_norms": {
+     "cell": 0.025813
+    },
+    "forward_finite": true,
+    "out_max_abs": 0.434165
+   },
+   "gradnorm_seq72_b16": {
+    "seq_len": 72,
+    "grad_global_norm": 0.018184985252640132,
+    "grad_module_norms": {
+     "cell": 0.025798
+    },
+    "forward_finite": true,
+    "out_max_abs": 0.444596
+   },
+   "stress_seq144_b16": {
+    "forward_finite": true,
+    "out_max_abs": 0.43514,
+    "grad_global_norm": 0.018218037142306066,
+    "grad_nonfinite_param_count": 0
+   },
+   "gleak_stress_mini64": {
+    "gleak_-30": {
+     "forward_finite": true,
+     "max_abs_state": 0.7069311141967773
+    },
+    "gleak_-10": {
+     "forward_finite": true,
+     "max_abs_state": 0.7069302201271057
+    },
+    "gleak_0": {
+     "forward_finite": true,
+     "max_abs_state": 0.571332573890686
+    },
+    "gleak_30": {
+     "forward_finite": true,
+     "max_abs_state": 0.23505407571792603
+    },
+    "gleak_-40_w_-40": {
+     "forward_finite": true,
+     "max_abs_state": 0.886026918888092,
+     "note": "库 ε=1e-8 守卫是唯一保护；τ-tie 与库 LTCCell 同构（非本覆写引入）"
+    }
+   }
+  },
+  "O5_equivalence": {
+   "raw_vs_fixed_single_step_max_abs_diff": 0.0,
+   "raw_vs_fixed_seq12_max_abs_diff": 0.0,
+   "stock_cm_eq_gleak_vs_tie_tau1_max_abs_diff": 0.0
+  },
+  "O6_timing_breakdown": {
+   "unfold_parts_b16": {
+    "sigmoid_broadcast_ms": 5.38,
+    "weighted_sums_ms": 3.63,
+    "per_unfold_estimate_ms": 9.01,
+    "tensor_mib": 137.3
+   },
+   "unfold_parts_b64": {
+    "sigmoid_broadcast_ms": 20.81,
+    "weighted_sums_ms": 13.01,
+    "per_unfold_estimate_ms": 33.82,
+    "tensor_mib": 549.3
+   }
+  },
+  "O2_after_fixed": {
+   "b64_seq72": {
+    "tag": "fixed_tie_b64_seq72",
+    "batch": 64,
+    "seq_len": 72,
+    "params": {
+     "total": 11859161,
+     "trainable": 9489161
+    },
+    "forward_finite": true,
+    "forward_max_abs": 0.062778,
+    "loss": 0.693518,
+    "grad_global_norm": 0.16989167818123618,
+    "grad_nonfinite_param_count": 0,
+    "grad_module_norms": {
+     "expert": 0.011486,
+     "head": 0.182429
+    },
+    "grad_c": null,
+    "backward_finite": true,
+    "batch_fwd_bwd_sec": 203.638,
+    "peak_mem_mib": 10082.1,
+    "batch_ms_median": 201660.7,
+    "batch_ms_all": [
+     201639.2,
+     201660.7
+    ],
+    "per_step_ms": 2800.84,
+    "epoch_estimate_sec": {
+     "n8000_b64": 25207.6,
+     "n4000_b64": 12503.0,
+     "n2000_b64": 6251.5
+    }
+   }
+  },
+  "O3_ERROR": {
+   "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 550.00 MiB. GPU 0 has a total capacity of 7.93 GiB of which 0 bytes is free. Of the allocated memory 21.73 GiB is allocated by PyTorch, and 559.16 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+  },
+  "O3_full_mrmoe": {
+   "b8_seq72": {
+    "tag": "mrmoe_armB_b8_seq72",
+    "batch": 8,
+    "seq_len": 72,
+    "params": {
+     "total": 35582865,
+     "trainable": 28472865
+    },
+    "forward_finite": true,
+    "forward_max_abs": 0.069561,
+    "loss": 0.694796,
+    "grad_global_norm": 0.2910293175486296,
+    "grad_nonfinite_param_count": 0,
+    "grad_module_norms": {
+     "expert0": 0.00979,
+     "expert1": 0.012035,
+     "expert2": 0.011614,
+     "gate": 0.010238,
+     "readouts": 0.5382,
+     "tau_sched": 1e-06
+    },
+    "grad_c": {
+     "norm": 6.709161084472726e-07,
+     "values": [
+      -2.7e-07,
+      -4.3e-07,
+      -4.3e-07
+     ]
+    },
+    "backward_finite": true,
+    "batch_fwd_bwd_sec": 29.569,
+    "peak_mem_mib": 3715.1,
+    "batch_ms_median": 20302.7,
+    "batch_ms_all": [
+     20302.7
+    ],
+    "per_step_ms": 281.98,
+    "epoch_estimate_sec": {
+     "n8000_b8": 20302.7,
+     "n4000_b8": 10151.4,
+     "n2000_b8": 5075.7
+    }
+   },
+   "b16_seq72": {
+    "tag": "mrmoe_armB_b16_seq72",
+    "batch": 16,
+    "seq_len": 72,
+    "params": {
+     "total": 35582865,
+     "trainable": 28472865
+    },
+    "forward_finite": true,
+    "forward_max_abs": 0.070662,
+    "loss": 0.693305,
+    "grad_global_norm": 0.14232775304554834,
+    "grad_nonfinite_param_count": 0,
+    "grad_module_norms": {
+     "expert0": 0.006816,
+     "expert1": 0.004552,
+     "expert2": 0.005013,
+     "gate": 0.00697,
+     "readouts": 0.260868,
+     "tau_sched": 0.0
+    },
+    "grad_c": {
+     "norm": 4.6170305267878575e-07,
+     "values": [
+      -1.9e-07,
+      -3e-07,
+      -3e-07
+     ]
+    },
+    "backward_finite": true,
+    "batch_fwd_bwd_sec": 39.688,
+    "peak_mem_mib": 4768.8
+   },
+   "b32_seq72": {
+    "tag": "mrmoe_armB_b32_seq72",
+    "batch": 32,
+    "seq_len": 72,
+    "params": {
+     "total": 35582865,
+     "trainable": 28472865
+    },
+    "forward_finite": true,
+    "forward_max_abs": 0.0741,
+    "loss": 0.693504,
+    "grad_global_norm": 0.1486594067461923,
+    "grad_nonfinite_param_count": 0,
+    "grad_module_norms": {
+     "expert0": 0.006491,
+     "expert1": 0.004939,
+     "expert2": 0.00572,
+     "gate": 0.005692,
+     "readouts": 0.274997,
+     "tau_sched": 0.0
+    },
+    "grad_c": {
+     "norm": 3.1307260428548034e-07,
+     "values": [
+      -1.3e-07,
+      -2e-07,
+      -2e-07
+     ]
+    },
+    "backward_finite": true,
+    "batch_fwd_bwd_sec": 86.027,
+    "peak_mem_mib": 6863.4
+   }
+  }
+ },
+ "env": {
+  "device": "cuda",
+  "ran_at": "2026-10-28T04:34:44+0800"
+ },
+ "total_sec": 204.5
+}

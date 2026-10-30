@@ -1,0 +1,299 @@
+{
+ "schema": "pilot-train-runs/v1",
+ "runs": {
+  "A_s0": {
+   "arm": "A",
+   "seed": 0,
+   "status": "completed",
+   "wall_sec": 737.5,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    122.65,
+    121.88,
+    120.74,
+    121.77,
+    122.7,
+    123.69
+   ],
+   "batch_sec_median": 3.74,
+   "n_batches_per_epoch": 32,
+   "peak_mem_mib_overall": 1148.3,
+   "per_epoch_estimate_sec_E6_extrapolated": 733.4,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T01:29:28.841270",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253790,
+     "trainable": 1004958
+    },
+    "torch": "2.10.0+cu128"
+   }
+  },
+  "A_s1": {
+   "arm": "A",
+   "seed": 1,
+   "status": "completed",
+   "wall_sec": 1345.7,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    226.24,
+    226.31,
+    217.33,
+    224.38,
+    216.74,
+    217.67
+   ],
+   "batch_sec_median": 6.688,
+   "n_batches_per_epoch": 32,
+   "peak_mem_mib_overall": 1148.3,
+   "per_epoch_estimate_sec_E6_extrapolated": 1328.7,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T02:48:58.313758",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253790,
+     "trainable": 1004958
+    },
+    "torch": "2.10.0+cu128"
+   }
+  },
+  "B_s0": {
+   "arm": "B",
+   "seed": 0,
+   "status": "completed",
+   "wall_sec": 1496.2,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    245.85,
+    255.91,
+    243.37,
+    250.05,
+    246.14,
+    244.63
+   ],
+   "batch_sec_median": 7.529,
+   "n_batches_per_epoch": 32,
+   "peak_mem_mib_overall": 1148.4,
+   "per_epoch_estimate_sec_E6_extrapolated": 1486.0,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T04:21:22.835528",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253793,
+     "trainable": 1004961
+    },
+    "torch": "2.10.0+cu128"
+   }
+  },
+  "A_s2": {
+   "arm": "A",
+   "seed": 2,
+   "status": "completed",
+   "wall_sec": 408.9,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    216.86,
+    231.17,
+    229.26,
+    133.91,
+    134.79,
+    135.54
+   ],
+   "batch_sec_median": 4.108,
+   "n_batches_per_epoch": 16,
+   "peak_mem_mib_overall": 1153.2,
+   "per_epoch_estimate_sec_E6_extrapolated": 808.5,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T04:31:45.254681",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253790,
+     "trainable": 1004958
+    },
+    "torch": "2.10.0+cu128"
+   }
+  },
+  "B_s1": {
+   "arm": "B",
+   "seed": 1,
+   "status": "completed",
+   "wall_sec": 840.2,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    142.96,
+    139.61,
+    138.38,
+    137.8,
+    138.5,
+    137.6
+   ],
+   "batch_sec_median": 4.243,
+   "n_batches_per_epoch": 32,
+   "peak_mem_mib_overall": 1148.4,
+   "per_epoch_estimate_sec_E6_extrapolated": 834.9,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T05:19:06.650705",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253793,
+     "trainable": 1004961
+    },
+    "torch": "2.10.0+cu128"
+   }
+  },
+  "B_s2": {
+   "arm": "B",
+   "seed": 2,
+   "status": "completed",
+   "wall_sec": 881.4,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    152.03,
+    147.51,
+    138.98,
+    137.69,
+    150.44,
+    144.43
+   ],
+   "batch_sec_median": 4.278,
+   "n_batches_per_epoch": 32,
+   "peak_mem_mib_overall": 1148.4,
+   "per_epoch_estimate_sec_E6_extrapolated": 871.1,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T06:54:18.300659",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253793,
+     "trainable": 1004961
+    },
+    "torch": "2.10.0+cu128"
+   }
+  },
+  "LNN_s0": {
+   "arm": "LNN",
+   "seed": 0,
+   "status": "completed",
+   "wall_sec": 178.6,
+   "n_epochs_done": 6,
+   "epoch_sec": [
+    31.2,
+    28.95,
+    29.19,
+    29.02,
+    28.98,
+    29.23
+   ],
+   "batch_sec_median": 0.885,
+   "n_batches_per_epoch": 32,
+   "peak_mem_mib_overall": 370.1,
+   "per_epoch_estimate_sec_E6_extrapolated": 176.6,
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-31T01:13:07.631874",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 416393,
+     "trainable": 333449
+    },
+    "torch": "2.10.0+cu128"
+   }
+  }
+ }
+}

@@ -1,0 +1,1983 @@
+{
+ "schema": "pilot-progress/v1",
+ "stage": "S3-pilot (D15 smoke) / S3-pilot-continue",
+ "runs": {
+  "A_s0": {
+   "arm": "A",
+   "seed": 0,
+   "tau_learnable": false,
+   "run_key": "A_s0",
+   "status": "completed",
+   "started_at": "2026-10-29T01:17:15.144549",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253790,
+     "trainable": 1004958
+    },
+    "torch": "2.10.0+cu128"
+   },
+   "init_check": {
+    "statement": "D5(ii) B(0)≡A(0) 真实数据 batch 复核（h256 同档）",
+    "batch": 8,
+    "logits_max_abs_diff": 0.0,
+    "pass_diff_lt_1e-6": true,
+    "param_audit_pass_exactly_3_scalars": true,
+    "param_audit": {
+     "arm_a_learnable_params": 1004958,
+     "arm_b_learnable_params": 1004961,
+     "learnable_elem_diff_b_minus_a": 3,
+     "names_only_in_b": [
+      "tau_sched.c"
+     ],
+     "names_only_in_a": [],
+     "shapes_only_in_b": {
+      "tau_sched.c": [
+       3
+      ]
+     },
+     "name_sets_identical_except": [
+      "tau_sched.c"
+     ],
+     "pass_exactly_3_scalars": true
+    },
+    "finite_both": true,
+    "sec": 3.63
+   },
+   "sub_idx_sha1": "a2ba8268d20d",
+   "epochs": [
+    {
+     "epoch": 1,
+     "train_loss_mean": 0.228507,
+     "train_loss_first_last": [
+      0.704047,
+      0.068192
+     ],
+     "grad_global_norm_mean": 0.578794,
+     "grad_global_norm_max": 1.579923,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.059867,
+     "hourly": {
+      "auroc": 0.3192725407987103,
+      "auprc": 0.006219912227425149,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.4132094943240454,
+      "auprc": 0.03429549608941896,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": null,
+     "n_batches": 32,
+     "batch_sec_median": 3.733,
+     "epoch_sec": 122.65,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s0_ep1.pt"
+    },
+    {
+     "epoch": 2,
+     "train_loss_mean": 0.04954,
+     "train_loss_first_last": [
+      0.043747,
+      0.088215
+     ],
+     "grad_global_norm_mean": 0.054602,
+     "grad_global_norm_max": 0.131713,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.04419,
+     "hourly": {
+      "auroc": 0.3406403577895009,
+      "auprc": 0.006300222044892472,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5469556243550051,
+      "auprc": 0.0501832045949693,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 3.713,
+     "epoch_sec": 121.88,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s0_ep2.pt"
+    },
+    {
+     "epoch": 3,
+     "train_loss_mean": 0.042054,
+     "train_loss_first_last": [
+      0.048567,
+      0.009808
+     ],
+     "grad_global_norm_mean": 0.022857,
+     "grad_global_norm_max": 0.053255,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.042676,
+     "hourly": {
+      "auroc": 0.38491515432228723,
+      "auprc": 0.007540000166781564,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5882352941176471,
+      "auprc": 0.06752509721439216,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 3.68,
+     "epoch_sec": 120.74,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s0_ep3.pt"
+    },
+    {
+     "epoch": 4,
+     "train_loss_mean": 0.041059,
+     "train_loss_first_last": [
+      0.060267,
+      0.008339
+     ],
+     "grad_global_norm_mean": 0.020052,
+     "grad_global_norm_max": 0.048804,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.04201,
+     "hourly": {
+      "auroc": 0.5284715747429967,
+      "auprc": 0.012032597973244153,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5886480908152735,
+      "auprc": 0.06755810376825556,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 3.717,
+     "epoch_sec": 121.77,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s0_ep4.pt"
+    },
+    {
+     "epoch": 5,
+     "train_loss_mean": 0.041305,
+     "train_loss_first_last": [
+      0.029329,
+      0.045001
+     ],
+     "grad_global_norm_mean": 0.018686,
+     "grad_global_norm_max": 0.057675,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.041352,
+     "hourly": {
+      "auroc": 0.8061351455399626,
+      "auprc": 0.01967842061092434,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5884416924664603,
+      "auprc": 0.06754153243995824,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 3.773,
+     "epoch_sec": 122.7,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s0_ep5.pt"
+    },
+    {
+     "epoch": 6,
+     "train_loss_mean": 0.040567,
+     "train_loss_first_last": [
+      0.057561,
+      0.043487
+     ],
+     "grad_global_norm_mean": 0.022247,
+     "grad_global_norm_max": 0.05601,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.040562,
+     "hourly": {
+      "auroc": 0.803056970819824,
+      "auprc": 0.01972698606764441,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.6136222910216719,
+      "auprc": 0.08130538090224303,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 3.787,
+     "epoch_sec": 123.69,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s0_ep6.pt"
+    }
+   ],
+   "updated_at": "2026-10-29T01:29:28.798012",
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T01:29:28.839018",
+   "loss_decrease_ep1_to_last": 0.18794,
+   "val_loss_decrease_ep1_to_last": 0.019305
+  },
+  "A_s1": {
+   "arm": "A",
+   "seed": 1,
+   "tau_learnable": false,
+   "run_key": "A_s1",
+   "status": "completed",
+   "started_at": "2026-10-29T02:26:49.084580",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253790,
+     "trainable": 1004958
+    },
+    "torch": "2.10.0+cu128"
+   },
+   "init_check": {
+    "statement": "D5(ii) B(0)≡A(0) 真实数据 batch 复核（h256 同档）",
+    "batch": 8,
+    "logits_max_abs_diff": 0.0,
+    "pass_diff_lt_1e-6": true,
+    "param_audit_pass_exactly_3_scalars": true,
+    "param_audit": {
+     "arm_a_learnable_params": 1004958,
+     "arm_b_learnable_params": 1004961,
+     "learnable_elem_diff_b_minus_a": 3,
+     "names_only_in_b": [
+      "tau_sched.c"
+     ],
+     "names_only_in_a": [],
+     "shapes_only_in_b": {
+      "tau_sched.c": [
+       3
+      ]
+     },
+     "name_sets_identical_except": [
+      "tau_sched.c"
+     ],
+     "pass_exactly_3_scalars": true
+    },
+    "finite_both": true,
+    "sec": 16.05
+   },
+   "sub_idx_sha1": "a2ba8268d20d",
+   "epochs": [
+    {
+     "epoch": 1,
+     "train_loss_mean": 0.235309,
+     "train_loss_first_last": [
+      0.717168,
+      0.066461
+     ],
+     "grad_global_norm_mean": 0.58745,
+     "grad_global_norm_max": 1.610846,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.061507,
+     "hourly": {
+      "auroc": 0.3319463075136998,
+      "auprc": 0.006467817058733906,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5312693498452012,
+      "auprc": 0.06731891312481672,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": null,
+     "n_batches": 32,
+     "batch_sec_median": 6.659,
+     "epoch_sec": 226.24,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s1_ep1.pt"
+    },
+    {
+     "epoch": 2,
+     "train_loss_mean": 0.049076,
+     "train_loss_first_last": [
+      0.059795,
+      0.049211
+     ],
+     "grad_global_norm_mean": 0.057382,
+     "grad_global_norm_max": 0.119364,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.04425,
+     "hourly": {
+      "auroc": 0.3477056176801429,
+      "auprc": 0.006498477014684929,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5525283797729618,
+      "auprc": 0.10734132787364727,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 6.937,
+     "epoch_sec": 226.31,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s1_ep2.pt"
+    },
+    {
+     "epoch": 3,
+     "train_loss_mean": 0.04282,
+     "train_loss_first_last": [
+      0.029811,
+      0.040326
+     ],
+     "grad_global_norm_mean": 0.022899,
+     "grad_global_norm_max": 0.056778,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.042584,
+     "hourly": {
+      "auroc": 0.4059575440770438,
+      "auprc": 0.008272046142351724,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.6534571723426212,
+      "auprc": 0.12898414685022946,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 6.579,
+     "epoch_sec": 217.33,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s1_ep3.pt"
+    },
+    {
+     "epoch": 4,
+     "train_loss_mean": 0.041967,
+     "train_loss_first_last": [
+      0.069523,
+      0.04978
+     ],
+     "grad_global_norm_mean": 0.018817,
+     "grad_global_norm_max": 0.042527,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.041984,
+     "hourly": {
+      "auroc": 0.5612773169396607,
+      "auprc": 0.013078667141754914,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5890608875128999,
+      "auprc": 0.06759166155207381,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 6.799,
+     "epoch_sec": 224.38,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s1_ep4.pt"
+    },
+    {
+     "epoch": 5,
+     "train_loss_mean": 0.041388,
+     "train_loss_first_last": [
+      0.065964,
+      0.049275
+     ],
+     "grad_global_norm_mean": 0.017666,
+     "grad_global_norm_max": 0.044501,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.04137,
+     "hourly": {
+      "auroc": 0.8022173865967289,
+      "auprc": 0.01946153617583994,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5890608875128999,
+      "auprc": 0.06759166155207381,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 6.577,
+     "epoch_sec": 216.74,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s1_ep5.pt"
+    },
+    {
+     "epoch": 6,
+     "train_loss_mean": 0.039781,
+     "train_loss_first_last": [
+      0.027908,
+      0.008266
+     ],
+     "grad_global_norm_mean": 0.023285,
+     "grad_global_norm_max": 0.054381,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.040626,
+     "hourly": {
+      "auroc": 0.801844288180555,
+      "auprc": 0.01958445275834734,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5890608875128999,
+      "auprc": 0.06759166155207381,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 6.64,
+     "epoch_sec": 217.67,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s1_ep6.pt"
+    }
+   ],
+   "updated_at": "2026-10-29T02:48:58.231670",
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T02:48:58.310432",
+   "loss_decrease_ep1_to_last": 0.195528,
+   "val_loss_decrease_ep1_to_last": 0.020881
+  },
+  "A_s2": {
+   "arm": "A",
+   "seed": 2,
+   "tau_learnable": false,
+   "run_key": "A_s2",
+   "status": "completed",
+   "started_at": "2026-10-29T04:25:00.815499",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253790,
+     "trainable": 1004958
+    },
+    "torch": "2.10.0+cu128"
+   },
+   "init_check": {
+    "statement": "D5(ii) B(0)≡A(0) 真实数据 batch 复核（h256 同档）",
+    "batch": 8,
+    "logits_max_abs_diff": 0.0,
+    "pass_diff_lt_1e-6": true,
+    "param_audit_pass_exactly_3_scalars": true,
+    "param_audit": {
+     "arm_a_learnable_params": 1004958,
+     "arm_b_learnable_params": 1004961,
+     "learnable_elem_diff_b_minus_a": 3,
+     "names_only_in_b": [
+      "tau_sched.c"
+     ],
+     "names_only_in_a": [],
+     "shapes_only_in_b": {
+      "tau_sched.c": [
+       3
+      ]
+     },
+     "name_sets_identical_except": [
+      "tau_sched.c"
+     ],
+     "pass_exactly_3_scalars": true
+    },
+    "finite_both": true,
+    "sec": 4.28
+   },
+   "sub_idx_sha1": "a2ba8268d20d",
+   "epochs": [
+    {
+     "epoch": 1,
+     "train_loss_mean": 0.236789,
+     "train_loss_first_last": [
+      0.731944,
+      0.038813
+     ],
+     "grad_global_norm_mean": 0.599047,
+     "grad_global_norm_max": 1.622133,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.060418,
+     "hourly": {
+      "auroc": 0.2995211828467966,
+      "auprc": 0.006076335279989525,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.38864809081527346,
+      "auprc": 0.03636443121124103,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": null,
+     "n_batches": 32,
+     "batch_sec_median": 6.571,
+     "epoch_sec": 216.86,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s2_ep1.pt"
+    },
+    {
+     "epoch": 2,
+     "train_loss_mean": 0.048355,
+     "train_loss_first_last": [
+      0.058729,
+      0.012251
+     ],
+     "grad_global_norm_mean": 0.056748,
+     "grad_global_norm_max": 0.118298,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.045122,
+     "hourly": {
+      "auroc": 0.29695009714694753,
+      "auprc": 0.005774802567327449,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.44478844169246645,
+      "auprc": 0.04466468094199034,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 7.087,
+     "epoch_sec": 231.17,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s2_ep2.pt"
+    },
+    {
+     "epoch": 3,
+     "train_loss_mean": 0.043229,
+     "train_loss_first_last": [
+      0.062444,
+      0.009308
+     ],
+     "grad_global_norm_mean": 0.026049,
+     "grad_global_norm_max": 0.062378,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.043876,
+     "hourly": {
+      "auroc": 0.3118120762979494,
+      "auprc": 0.005778323942402519,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.4264189886480908,
+      "auprc": 0.03560690943043884,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 6.932,
+     "epoch_sec": 229.26,
+     "peak_mem_mib": 1148.3,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s2_ep3.pt"
+    },
+    {
+     "epoch": 4,
+     "train_loss_mean": 0.042355,
+     "train_loss_first_last": [
+      0.042028,
+      0.00872
+     ],
+     "grad_global_norm_mean": 0.024218,
+     "grad_global_norm_max": 0.059925,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.043182,
+     "hourly": {
+      "auroc": 0.3456719982194739,
+      "auprc": 0.0064168457212669715,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.45139318885448915,
+      "auprc": 0.0452580783092053,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": null,
+     "n_batches": 32,
+     "batch_sec_median": 4.074,
+     "epoch_sec": 133.91,
+     "peak_mem_mib": 1153.2,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s2_ep4.pt"
+    },
+    {
+     "epoch": 5,
+     "train_loss_mean": 0.041603,
+     "train_loss_first_last": [
+      0.040414,
+      0.008173
+     ],
+     "grad_global_norm_mean": 0.02189,
+     "grad_global_norm_max": 0.054357,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.042263,
+     "hourly": {
+      "auroc": 0.47093501681273797,
+      "auprc": 0.009703279300557957,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5424148606811146,
+      "auprc": 0.05682226705070205,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 4.124,
+     "epoch_sec": 134.79,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s2_ep5.pt"
+    },
+    {
+     "epoch": 6,
+     "train_loss_mean": 0.040293,
+     "train_loss_first_last": [
+      0.059863,
+      0.008646
+     ],
+     "grad_global_norm_mean": 0.018944,
+     "grad_global_norm_max": 0.04889,
+     "c_grad_norm_mean": null,
+     "val_loss": 0.040487,
+     "hourly": {
+      "auroc": 0.819840835403596,
+      "auprc": 0.0214792343272612,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5888544891640867,
+      "auprc": 0.06757481289695351,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      1.0,
+      10.0,
+      100.0
+     ],
+     "increments": [
+      1.0,
+      9.0,
+      90.0
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0,
+      0.0,
+      0.0
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 4.111,
+     "epoch_sec": 135.54,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_A_s2_ep6.pt"
+    }
+   ],
+   "updated_at": "2026-10-29T04:31:45.182362",
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T04:31:45.249946",
+   "loss_decrease_ep1_to_last": 0.196496,
+   "val_loss_decrease_ep1_to_last": 0.019931
+  },
+  "B_s0": {
+   "arm": "B",
+   "seed": 0,
+   "tau_learnable": true,
+   "run_key": "B_s0",
+   "status": "completed",
+   "started_at": "2026-10-29T03:56:36.290393",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253793,
+     "trainable": 1004961
+    },
+    "torch": "2.10.0+cu128"
+   },
+   "init_check": {
+    "statement": "D5(ii) B(0)≡A(0) 真实数据 batch 复核（h256 同档）",
+    "batch": 8,
+    "logits_max_abs_diff": 0.0,
+    "pass_diff_lt_1e-6": true,
+    "param_audit_pass_exactly_3_scalars": true,
+    "param_audit": {
+     "arm_a_learnable_params": 1004958,
+     "arm_b_learnable_params": 1004961,
+     "learnable_elem_diff_b_minus_a": 3,
+     "names_only_in_b": [
+      "tau_sched.c"
+     ],
+     "names_only_in_a": [],
+     "shapes_only_in_b": {
+      "tau_sched.c": [
+       3
+      ]
+     },
+     "name_sets_identical_except": [
+      "tau_sched.c"
+     ],
+     "pass_exactly_3_scalars": true
+    },
+    "finite_both": true,
+    "sec": 9.19
+   },
+   "sub_idx_sha1": "a2ba8268d20d",
+   "epochs": [
+    {
+     "epoch": 1,
+     "train_loss_mean": 0.228506,
+     "train_loss_first_last": [
+      0.704047,
+      0.06819
+     ],
+     "grad_global_norm_mean": 0.578793,
+     "grad_global_norm_max": 1.579923,
+     "c_grad_norm_mean": 5.19465e-05,
+     "val_loss": 0.059866,
+     "hourly": {
+      "auroc": 0.3192707362114495,
+      "auprc": 0.006219904002828093,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.4132094943240454,
+      "auprc": 0.03429549608941896,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.979843,
+      9.947735,
+      99.91539
+     ],
+     "increments": [
+      0.979843,
+      8.967892,
+      89.967651
+     ],
+     "tau_rel_move_vs_prev_epoch": null,
+     "n_batches": 32,
+     "batch_sec_median": 7.498,
+     "epoch_sec": 245.85,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s0_ep1.pt"
+    },
+    {
+     "epoch": 2,
+     "train_loss_mean": 0.04954,
+     "train_loss_first_last": [
+      0.043744,
+      0.088219
+     ],
+     "grad_global_norm_mean": 0.0546,
+     "grad_global_norm_max": 0.131711,
+     "c_grad_norm_mean": 2.33272e-05,
+     "val_loss": 0.04419,
+     "hourly": {
+      "auroc": 0.34065148607760926,
+      "auprc": 0.006299873391263691,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5469556243550051,
+      "auprc": 0.0501832045949693,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.967674,
+      9.915912,
+      99.864594
+     ],
+     "increments": [
+      0.967674,
+      8.948238,
+      89.948685
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.01241934,
+      0.00319902,
+      0.00050839
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 7.77,
+     "epoch_sec": 255.91,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s0_ep2.pt"
+    },
+    {
+     "epoch": 3,
+     "train_loss_mean": 0.042055,
+     "train_loss_first_last": [
+      0.048567,
+      0.009807
+     ],
+     "grad_global_norm_mean": 0.022856,
+     "grad_global_norm_max": 0.053257,
+     "c_grad_norm_mean": 1.0195e-05,
+     "val_loss": 0.042677,
+     "hourly": {
+      "auroc": 0.3848993641837551,
+      "auprc": 0.007538120102531716,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5882352941176471,
+      "auprc": 0.06752509721439216,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.963102,
+      9.903881,
+      99.845886
+     ],
+     "increments": [
+      0.963102,
+      8.940779,
+      89.942001
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.00472473,
+      0.0012133,
+      0.00018733
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 7.476,
+     "epoch_sec": 243.37,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s0_ep3.pt"
+    },
+    {
+     "epoch": 4,
+     "train_loss_mean": 0.041059,
+     "train_loss_first_last": [
+      0.060267,
+      0.008338
+     ],
+     "grad_global_norm_mean": 0.020046,
+     "grad_global_norm_max": 0.048784,
+     "c_grad_norm_mean": 8.5336e-06,
+     "val_loss": 0.042011,
+     "hourly": {
+      "auroc": 0.5283729239727387,
+      "auprc": 0.012054584767494414,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.6136222910216719,
+      "auprc": 0.08130538090224303,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.960699,
+      9.897535,
+      99.836403
+     ],
+     "increments": [
+      0.960699,
+      8.936837,
+      89.938866
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.00249506,
+      0.00064076,
+      9.498e-05
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 7.5,
+     "epoch_sec": 250.05,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s0_ep4.pt"
+    },
+    {
+     "epoch": 5,
+     "train_loss_mean": 0.041306,
+     "train_loss_first_last": [
+      0.029329,
+      0.045002
+     ],
+     "grad_global_norm_mean": 0.018681,
+     "grad_global_norm_max": 0.05766,
+     "c_grad_norm_mean": 8.3798e-06,
+     "val_loss": 0.041353,
+     "hourly": {
+      "auroc": 0.8061361982158647,
+      "auprc": 0.01967920969193161,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5884416924664603,
+      "auprc": 0.06754153243995824,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.959728,
+      9.894965,
+      99.833015
+     ],
+     "increments": [
+      0.959728,
+      8.935237,
+      89.938049
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.00101072,
+      0.00025966,
+      3.394e-05
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 7.529,
+     "epoch_sec": 246.14,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s0_ep5.pt"
+    },
+    {
+     "epoch": 6,
+     "train_loss_mean": 0.040567,
+     "train_loss_first_last": [
+      0.057562,
+      0.043489
+     ],
+     "grad_global_norm_mean": 0.022245,
+     "grad_global_norm_max": 0.056005,
+     "c_grad_norm_mean": 6.8308e-06,
+     "val_loss": 0.040563,
+     "hourly": {
+      "auroc": 0.8030476471189765,
+      "auprc": 0.019728713859367357,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.6136222910216719,
+      "auprc": 0.08130538090224303,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.958478,
+      9.891654,
+      99.828354
+     ],
+     "increments": [
+      0.958478,
+      8.933176,
+      89.936699
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.00130245,
+      0.00033461,
+      4.669e-05
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 7.433,
+     "epoch_sec": 244.63,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s0_ep6.pt"
+    }
+   ],
+   "updated_at": "2026-10-29T04:21:22.731589",
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T04:21:22.825260",
+   "loss_decrease_ep1_to_last": 0.187939,
+   "val_loss_decrease_ep1_to_last": 0.019303
+  },
+  "B_s1": {
+   "arm": "B",
+   "seed": 1,
+   "tau_learnable": true,
+   "run_key": "B_s1",
+   "status": "completed",
+   "started_at": "2026-10-29T05:05:13.645345",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253793,
+     "trainable": 1004961
+    },
+    "torch": "2.10.0+cu128"
+   },
+   "init_check": {
+    "statement": "D5(ii) B(0)≡A(0) 真实数据 batch 复核（h256 同档）",
+    "batch": 8,
+    "logits_max_abs_diff": 0.0,
+    "pass_diff_lt_1e-6": true,
+    "param_audit_pass_exactly_3_scalars": true,
+    "param_audit": {
+     "arm_a_learnable_params": 1004958,
+     "arm_b_learnable_params": 1004961,
+     "learnable_elem_diff_b_minus_a": 3,
+     "names_only_in_b": [
+      "tau_sched.c"
+     ],
+     "names_only_in_a": [],
+     "shapes_only_in_b": {
+      "tau_sched.c": [
+       3
+      ]
+     },
+     "name_sets_identical_except": [
+      "tau_sched.c"
+     ],
+     "pass_exactly_3_scalars": true
+    },
+    "finite_both": true,
+    "sec": 4.79
+   },
+   "sub_idx_sha1": "a2ba8268d20d",
+   "epochs": [
+    {
+     "epoch": 1,
+     "train_loss_mean": 0.235308,
+     "train_loss_first_last": [
+      0.717168,
+      0.066459
+     ],
+     "grad_global_norm_mean": 0.58745,
+     "grad_global_norm_max": 1.610846,
+     "c_grad_norm_mean": 4.28285e-05,
+     "val_loss": 0.061506,
+     "hourly": {
+      "auroc": 0.3319180356466137,
+      "auprc": 0.006330808922152497,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5060887512899896,
+      "auprc": 0.055351454661286895,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.982264,
+      9.954,
+      99.924698
+     ],
+     "increments": [
+      0.982264,
+      8.971737,
+      89.970695
+     ],
+     "tau_rel_move_vs_prev_epoch": null,
+     "n_batches": 32,
+     "batch_sec_median": 4.331,
+     "epoch_sec": 142.96,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s1_ep1.pt"
+    },
+    {
+     "epoch": 2,
+     "train_loss_mean": 0.049075,
+     "train_loss_first_last": [
+      0.059794,
+      0.049214
+     ],
+     "grad_global_norm_mean": 0.057379,
+     "grad_global_norm_max": 0.119361,
+     "c_grad_norm_mean": 2.0555e-05,
+     "val_loss": 0.04425,
+     "hourly": {
+      "auroc": 0.3476967451261106,
+      "auprc": 0.006664976579458269,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5777089783281734,
+      "auprc": 0.11977554988067177,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.969108,
+      9.919626,
+      99.869911
+     ],
+     "increments": [
+      0.969108,
+      8.950518,
+      89.950287
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.01339355,
+      0.00345329,
+      0.00054828
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 4.283,
+     "epoch_sec": 139.61,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s1_ep2.pt"
+    },
+    {
+     "epoch": 3,
+     "train_loss_mean": 0.04282,
+     "train_loss_first_last": [
+      0.02981,
+      0.040328
+     ],
+     "grad_global_norm_mean": 0.022897,
+     "grad_global_norm_max": 0.056778,
+     "c_grad_norm_mean": 1.13765e-05,
+     "val_loss": 0.042584,
+     "hourly": {
+      "auroc": 0.4059721311574021,
+      "auprc": 0.007994759412076783,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.6282765737874098,
+      "auprc": 0.20490196078431372,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.96381,
+      9.905686,
+      99.849297
+     ],
+     "increments": [
+      0.96381,
+      8.941876,
+      89.943611
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.00546688,
+      0.00140529,
+      0.00020641
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 4.239,
+     "epoch_sec": 138.38,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s1_ep3.pt"
+    },
+    {
+     "epoch": 4,
+     "train_loss_mean": 0.041967,
+     "train_loss_first_last": [
+      0.069524,
+      0.049779
+     ],
+     "grad_global_norm_mean": 0.018813,
+     "grad_global_norm_max": 0.042525,
+     "c_grad_norm_mean": 8.3557e-06,
+     "val_loss": 0.041984,
+     "hourly": {
+      "auroc": 0.5612263373495425,
+      "auprc": 0.013073389609098261,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5890608875128999,
+      "auprc": 0.06759166155207381,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.961993,
+      9.90089,
+      99.844193
+     ],
+     "increments": [
+      0.961993,
+      8.938897,
+      89.943298
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.00188523,
+      0.00048417,
+      5.112e-05
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 4.21,
+     "epoch_sec": 137.8,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s1_ep4.pt"
+    },
+    {
+     "epoch": 5,
+     "train_loss_mean": 0.041388,
+     "train_loss_first_last": [
+      0.065965,
+      0.049274
+     ],
+     "grad_global_norm_mean": 0.017664,
+     "grad_global_norm_max": 0.044488,
+     "c_grad_norm_mean": 4.9642e-06,
+     "val_loss": 0.04137,
+     "hourly": {
+      "auroc": 0.8022268606798482,
+      "auprc": 0.01946452340813624,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5890608875128999,
+      "auprc": 0.06759166155207381,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.959445,
+      9.89415,
+      99.835999
+     ],
+     "increments": [
+      0.959445,
+      8.934705,
+      89.941849
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.00264867,
+      0.00068075,
+      8.207e-05
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 4.232,
+     "epoch_sec": 138.5,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s1_ep5.pt"
+    },
+    {
+     "epoch": 6,
+     "train_loss_mean": 0.03978,
+     "train_loss_first_last": [
+      0.027908,
+      0.008266
+     ],
+     "grad_global_norm_mean": 0.023285,
+     "grad_global_norm_max": 0.054378,
+     "c_grad_norm_mean": 5.8117e-06,
+     "val_loss": 0.040625,
+     "hourly": {
+      "auroc": 0.8018367690669682,
+      "auprc": 0.019584918830008055,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5890608875128999,
+      "auprc": 0.06759166155207381,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.956341,
+      9.885924,
+      99.825455
+     ],
+     "increments": [
+      0.956341,
+      8.929584,
+      89.939529
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.0032352,
+      0.0008314,
+      0.00010561
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 4.218,
+     "epoch_sec": 137.6,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s1_ep6.pt"
+    }
+   ],
+   "updated_at": "2026-10-29T05:19:06.590791",
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T05:19:06.645282",
+   "loss_decrease_ep1_to_last": 0.195528,
+   "val_loss_decrease_ep1_to_last": 0.020881
+  },
+  "B_s2": {
+   "arm": "B",
+   "seed": 2,
+   "tau_learnable": true,
+   "run_key": "B_s2",
+   "status": "completed",
+   "started_at": "2026-10-29T06:39:46.814365",
+   "config": {
+    "hidden": 256,
+    "batch": 64,
+    "ode_unfolds": 6,
+    "epochs": 6,
+    "lr": 0.001,
+    "subsample": 2000,
+    "data": "data\\processed\\physionet2019_sample.npz",
+    "data_seed": 20261029,
+    "seq_len": 72,
+    "n_feat": 68,
+    "device": "cuda",
+    "params": {
+     "total": 1253793,
+     "trainable": 1004961
+    },
+    "torch": "2.10.0+cu128"
+   },
+   "init_check": {
+    "statement": "D5(ii) B(0)≡A(0) 真实数据 batch 复核（h256 同档）",
+    "batch": 8,
+    "logits_max_abs_diff": 0.0,
+    "pass_diff_lt_1e-6": true,
+    "param_audit_pass_exactly_3_scalars": true,
+    "param_audit": {
+     "arm_a_learnable_params": 1004958,
+     "arm_b_learnable_params": 1004961,
+     "learnable_elem_diff_b_minus_a": 3,
+     "names_only_in_b": [
+      "tau_sched.c"
+     ],
+     "names_only_in_a": [],
+     "shapes_only_in_b": {
+      "tau_sched.c": [
+       3
+      ]
+     },
+     "name_sets_identical_except": [
+      "tau_sched.c"
+     ],
+     "pass_exactly_3_scalars": true
+    },
+    "finite_both": true,
+    "sec": 9.67
+   },
+   "sub_idx_sha1": "a2ba8268d20d",
+   "epochs": [
+    {
+     "epoch": 1,
+     "train_loss_mean": 0.236788,
+     "train_loss_first_last": [
+      0.731944,
+      0.03881
+     ],
+     "grad_global_norm_mean": 0.599046,
+     "grad_global_norm_max": 1.622133,
+     "c_grad_norm_mean": 5.43942e-05,
+     "val_loss": 0.060415,
+     "hourly": {
+      "auroc": 0.2995085507359708,
+      "auprc": 0.0060761765044478125,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.38864809081527346,
+      "auprc": 0.03636443121124103,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.981628,
+      9.95237,
+      99.919525
+     ],
+     "increments": [
+      0.981628,
+      8.970741,
+      89.967155
+     ],
+     "tau_rel_move_vs_prev_epoch": null,
+     "n_batches": 32,
+     "batch_sec_median": 4.385,
+     "epoch_sec": 152.03,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s2_ep1.pt"
+    },
+    {
+     "epoch": 2,
+     "train_loss_mean": 0.048353,
+     "train_loss_first_last": [
+      0.058726,
+      0.012248
+     ],
+     "grad_global_norm_mean": 0.056744,
+     "grad_global_norm_max": 0.118294,
+     "c_grad_norm_mean": 3.42521e-05,
+     "val_loss": 0.04512,
+     "hourly": {
+      "auroc": 0.2969573154959908,
+      "auprc": 0.005680577044143598,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.4196078431372549,
+      "auprc": 0.03513044545378009,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.966252,
+      9.912165,
+      99.854301
+     ],
+     "increments": [
+      0.966252,
+      8.945913,
+      89.942139
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.01566377,
+      0.00403974,
+      0.00065277
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 4.379,
+     "epoch_sec": 147.51,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s2_ep2.pt"
+    },
+    {
+     "epoch": 3,
+     "train_loss_mean": 0.043227,
+     "train_loss_first_last": [
+      0.06244,
+      0.009305
+     ],
+     "grad_global_norm_mean": 0.026047,
+     "grad_global_norm_max": 0.062391,
+     "c_grad_norm_mean": 2.44026e-05,
+     "val_loss": 0.043875,
+     "hourly": {
+      "auroc": 0.31183658860824215,
+      "auprc": 0.005815866083918015,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.40123839009287926,
+      "auprc": 0.037636554621848735,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.957105,
+      9.888043,
+      99.815582
+     ],
+     "increments": [
+      0.957105,
+      8.930939,
+      89.927536
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.00946647,
+      0.00243358,
+      0.00038775
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 4.249,
+     "epoch_sec": 138.98,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s2_ep3.pt"
+    },
+    {
+     "epoch": 4,
+     "train_loss_mean": 0.042333,
+     "train_loss_first_last": [
+      0.044356,
+      0.008732
+     ],
+     "grad_global_norm_mean": 0.02105,
+     "grad_global_norm_max": 0.043892,
+     "c_grad_norm_mean": 2.20665e-05,
+     "val_loss": 0.04318,
+     "hourly": {
+      "auroc": 0.34738229579591323,
+      "auprc": 0.006334061963864704,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.43323013415892675,
+      "auprc": 0.03610818643432148,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.9495,
+      9.867869,
+      99.783295
+     ],
+     "increments": [
+      0.9495,
+      8.918369,
+      89.915428
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.00794584,
+      0.00204024,
+      0.00032347
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 4.232,
+     "epoch_sec": 137.69,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s2_ep4.pt"
+    },
+    {
+     "epoch": 5,
+     "train_loss_mean": 0.043099,
+     "train_loss_first_last": [
+      0.047966,
+      0.072675
+     ],
+     "grad_global_norm_mean": 0.018889,
+     "grad_global_norm_max": 0.042774,
+     "c_grad_norm_mean": 2.07239e-05,
+     "val_loss": 0.042234,
+     "hourly": {
+      "auroc": 0.5187853022382898,
+      "auprc": 0.011658453338066553,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5708978328173374,
+      "auprc": 0.05833428702220188,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.942774,
+      9.849941,
+      99.754822
+     ],
+     "increments": [
+      0.942774,
+      8.907167,
+      89.904877
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.00708373,
+      0.00181681,
+      0.00028535
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 4.186,
+     "epoch_sec": 150.44,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s2_ep5.pt"
+    },
+    {
+     "epoch": 6,
+     "train_loss_mean": 0.040223,
+     "train_loss_first_last": [
+      0.038597,
+      0.008954
+     ],
+     "grad_global_norm_mean": 0.01683,
+     "grad_global_norm_max": 0.04206,
+     "c_grad_norm_mean": 1.45344e-05,
+     "val_loss": 0.040552,
+     "hourly": {
+      "auroc": 0.8177574394109827,
+      "auprc": 0.021347653446938987,
+      "n": 21744,
+      "pos_rate": 0.007082413416355848
+     },
+     "admission": {
+      "auroc": 0.5888544891640867,
+      "auprc": 0.06757481289695351,
+      "n": 302,
+      "pos_rate": 0.05629139021039009
+     },
+     "tau": [
+      0.937164,
+      9.834926,
+      99.731377
+     ],
+     "increments": [
+      0.937164,
+      8.897761,
+      89.896454
+     ],
+     "tau_rel_move_vs_prev_epoch": [
+      0.00595052,
+      0.00152437,
+      0.00023503
+     ],
+     "n_batches": 32,
+     "batch_sec_median": 4.275,
+     "epoch_sec": 144.43,
+     "peak_mem_mib": 1148.4,
+     "loss_finite": true,
+     "ckpt": "experiments\\ckpt\\pilot_B_s2_ep6.pt"
+    }
+   ],
+   "updated_at": "2026-10-29T06:54:18.243774",
+   "f3": {
+    "triggered": false,
+    "reason": null
+   },
+   "finished_at": "2026-10-29T06:54:18.297882",
+   "loss_decrease_ep1_to_last": 0.196565,
+   "val_loss_decrease_ep1_to_last": 0.019863
+  }
+ },
+ "updated_at": "2026-10-29T06:54:18.243774"
+}
